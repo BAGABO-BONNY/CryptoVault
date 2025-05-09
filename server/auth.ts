@@ -5,11 +5,11 @@ import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
-import { User as UserType } from "@shared/schema";
+import { User } from "@shared/schema";
 
 declare global {
   namespace Express {
-    interface User extends UserType {}
+    interface User extends User {}
   }
 }
 
@@ -102,7 +102,7 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", (req, res, next) => {
-    passport.authenticate("local", (err: any, user: UserType, info: any) => {
+    passport.authenticate("local", (err: any, user: User, info: any) => {
       if (err) return next(err);
       if (!user) {
         return res.status(401).json({ message: "Invalid username or password" });
@@ -129,7 +129,7 @@ export function setupAuth(app: Express) {
       return res.status(401).json({ message: "Not authenticated" });
     }
     // Return user info (without password)
-    const { password, ...userInfo } = req.user as UserType;
+    const { password, ...userInfo } = req.user as User;
     res.json(userInfo);
   });
 

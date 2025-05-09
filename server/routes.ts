@@ -8,11 +8,8 @@ import {
   statsSchema,
   insertActivityRecordSchema
 } from "@shared/schema";
-import { setupAuth } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Setup authentication
-  const { isAuthenticated } = setupAuth(app);
   // prefix all routes with /api
   
   // Get dashboard stats
@@ -313,24 +310,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get user's activity records
-  app.get('/api/user/activities', isAuthenticated, async (req, res) => {
-    try {
-      const userId = req.user?.id;
-      if (!userId) {
-        return res.status(401).json({ message: 'User not authenticated' });
-      }
-      
-      const activities = await storage.getActivityRecordsByUserId(userId);
-      res.json(activities);
-    } catch (error) {
-      console.error('User activities error:', error);
-      res.status(500).json({ message: 'Failed to fetch user activities' });
-    }
-  });
-
-  // Clear all data - protected by authentication
-  app.post('/api/clear-data', isAuthenticated, async (req, res) => {
+  // Clear all data
+  app.post('/api/clear-data', async (req, res) => {
     try {
       await storage.clearAll();
       res.json({

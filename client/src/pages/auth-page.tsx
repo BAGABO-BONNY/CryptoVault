@@ -1,13 +1,18 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Shield, Mail, Key, User, Lock, ArrowRight } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -16,50 +21,38 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Shield, KeyRound, Lock, Mail, User } from "lucide-react";
 
-// Login form schema
+// Form schemas
 const loginSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-// Registration form schema
 const registerSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  password: z
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .max(100),
-  confirmPassword: z.string(),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: z.string().min(6, "Password must be at least 6 characters"),
 }).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
+  message: "Passwords don't match",
   path: ["confirmPassword"],
 });
 
-// Types
 type LoginFormValues = z.infer<typeof loginSchema>;
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const AuthPage = () => {
-  const [activeTab, setActiveTab] = useState("login");
+  const [activeTab, setActiveTab] = useState<string>("login");
   const [, navigate] = useLocation();
   const { user, loginMutation, registerMutation } = useAuth();
-  const location = window.location;
 
-  // Get tab from URL query parameter
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const tab = params.get("tab");
-    if (tab === "register") {
-      setActiveTab("register");
-    }
-  }, [location.search]);
-
-  // Redirect if already logged in
+  // Redirect to dashboard if already logged in
   useEffect(() => {
     if (user) {
-      navigate("/dashboard");
+      navigate("/");
     }
   }, [user, navigate]);
 
@@ -72,7 +65,7 @@ const AuthPage = () => {
     },
   });
 
-  // Registration form
+  // Register form
   const registerForm = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -83,45 +76,39 @@ const AuthPage = () => {
     },
   });
 
-  // Login handler
   const onLoginSubmit = (data: LoginFormValues) => {
     loginMutation.mutate(data);
   };
 
-  // Registration handler
   const onRegisterSubmit = (data: RegisterFormValues) => {
-    // Remove confirmPassword as it's not needed for the API
-    const { confirmPassword, ...registerData } = data;
-    registerMutation.mutate(registerData);
+    // Omit confirmPassword field before sending to API
+    const { confirmPassword, ...userData } = data;
+    registerMutation.mutate(userData);
   };
 
   return (
-    <div className="min-h-screen grid md:grid-cols-2 bg-gray-50 dark:bg-slate-900">
-      {/* Left side - Forms */}
-      <div className="flex flex-col items-center justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="flex justify-center">
-            <Shield className="h-12 w-12 text-primary" />
-          </div>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Welcome to CryptoVault
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-            Your secure platform for advanced cryptography
-          </p>
-        </div>
-
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white dark:bg-slate-800 px-6 py-8 shadow sm:rounded-lg sm:px-10">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="login">Log In</TabsTrigger>
+    <div className="flex min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800">
+      <div className="flex flex-col md:flex-row w-full max-w-7xl mx-auto">
+        {/* Left Column - Forms */}
+        <div className="w-full md:w-1/2 flex items-center justify-center p-6">
+          <Card className="w-full max-w-md shadow-lg">
+            <CardHeader className="space-y-1 flex flex-col items-center">
+              <div className="w-16 h-16 mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+                <Shield className="h-8 w-8 text-primary" />
+              </div>
+              <CardTitle className="text-2xl text-center">CryptoVault</CardTitle>
+              <CardDescription className="text-center">
+                Secure your digital assets with advanced cryptography
+              </CardDescription>
+            </CardHeader>
+            <Tabs defaultValue="login" value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="login">Login</TabsTrigger>
                 <TabsTrigger value="register">Register</TabsTrigger>
               </TabsList>
-
               <TabsContent value="login">
                 <Form {...loginForm}>
-                  <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-6">
+                  <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4 p-6">
                     <FormField
                       control={loginForm.control}
                       name="username"
@@ -130,10 +117,10 @@ const AuthPage = () => {
                           <FormLabel>Username</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                              <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                               <Input
-                                className="pl-10"
                                 placeholder="Enter your username"
+                                className="pl-10"
                                 {...field}
                               />
                             </div>
@@ -142,7 +129,6 @@ const AuthPage = () => {
                         </FormItem>
                       )}
                     />
-
                     <FormField
                       control={loginForm.control}
                       name="password"
@@ -151,11 +137,11 @@ const AuthPage = () => {
                           <FormLabel>Password</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                               <Input
-                                className="pl-10"
                                 type="password"
-                                placeholder="••••••••"
+                                placeholder="Enter your password"
+                                className="pl-10"
                                 {...field}
                               />
                             </div>
@@ -164,52 +150,27 @@ const AuthPage = () => {
                         </FormItem>
                       )}
                     />
-
                     <Button
                       type="submit"
                       className="w-full"
                       disabled={loginMutation.isPending}
                     >
-                      {loginMutation.isPending ? (
-                        <span className="flex items-center justify-center">
-                          <svg
-                            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                          Logging in...
-                        </span>
-                      ) : (
-                        <span className="flex items-center justify-center">
-                          Log In <ArrowRight className="ml-2 h-4 w-4" />
-                        </span>
-                      )}
+                      {loginMutation.isPending ? "Signing in..." : "Sign In"}
                     </Button>
                   </form>
                 </Form>
+                <CardFooter className="flex justify-center pb-6 pt-0">
+                  <Button
+                    variant="link"
+                    onClick={() => setActiveTab("register")}
+                  >
+                    Don't have an account? Sign up
+                  </Button>
+                </CardFooter>
               </TabsContent>
-
               <TabsContent value="register">
                 <Form {...registerForm}>
-                  <form
-                    onSubmit={registerForm.handleSubmit(onRegisterSubmit)}
-                    className="space-y-6"
-                  >
+                  <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4 p-6">
                     <FormField
                       control={registerForm.control}
                       name="username"
@@ -218,10 +179,10 @@ const AuthPage = () => {
                           <FormLabel>Username</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                              <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                               <Input
-                                className="pl-10"
                                 placeholder="Choose a username"
+                                className="pl-10"
                                 {...field}
                               />
                             </div>
@@ -230,7 +191,6 @@ const AuthPage = () => {
                         </FormItem>
                       )}
                     />
-
                     <FormField
                       control={registerForm.control}
                       name="email"
@@ -239,11 +199,11 @@ const AuthPage = () => {
                           <FormLabel>Email</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                               <Input
-                                className="pl-10"
                                 type="email"
-                                placeholder="your@email.com"
+                                placeholder="Enter your email"
+                                className="pl-10"
                                 {...field}
                               />
                             </div>
@@ -252,7 +212,6 @@ const AuthPage = () => {
                         </FormItem>
                       )}
                     />
-
                     <FormField
                       control={registerForm.control}
                       name="password"
@@ -261,11 +220,11 @@ const AuthPage = () => {
                           <FormLabel>Password</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                               <Input
-                                className="pl-10"
                                 type="password"
-                                placeholder="••••••••"
+                                placeholder="Create a password"
+                                className="pl-10"
                                 {...field}
                               />
                             </div>
@@ -274,7 +233,6 @@ const AuthPage = () => {
                         </FormItem>
                       )}
                     />
-
                     <FormField
                       control={registerForm.control}
                       name="confirmPassword"
@@ -283,11 +241,11 @@ const AuthPage = () => {
                           <FormLabel>Confirm Password</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <Key className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                              <KeyRound className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                               <Input
-                                className="pl-10"
                                 type="password"
-                                placeholder="••••••••"
+                                placeholder="Confirm your password"
+                                className="pl-10"
                                 {...field}
                               />
                             </div>
@@ -296,90 +254,67 @@ const AuthPage = () => {
                         </FormItem>
                       )}
                     />
-
                     <Button
                       type="submit"
                       className="w-full"
                       disabled={registerMutation.isPending}
                     >
-                      {registerMutation.isPending ? (
-                        <span className="flex items-center justify-center">
-                          <svg
-                            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                          Creating account...
-                        </span>
-                      ) : (
-                        <span className="flex items-center justify-center">
-                          Create Account <ArrowRight className="ml-2 h-4 w-4" />
-                        </span>
-                      )}
+                      {registerMutation.isPending ? "Creating account..." : "Create Account"}
                     </Button>
                   </form>
                 </Form>
+                <CardFooter className="flex justify-center pb-6 pt-0">
+                  <Button
+                    variant="link"
+                    onClick={() => setActiveTab("login")}
+                  >
+                    Already have an account? Sign in
+                  </Button>
+                </CardFooter>
               </TabsContent>
             </Tabs>
-          </div>
+          </Card>
         </div>
-      </div>
 
-      {/* Right side - Hero section */}
-      <div className="hidden md:flex md:flex-col md:items-center md:justify-center bg-gradient-to-br from-primary-600 to-primary-800 px-8 text-white">
-        <div className="max-w-md">
-          <h1 className="text-4xl font-bold mb-6">
-            Secure Your Data with Advanced Cryptography
-          </h1>
-          <ul className="space-y-4">
-            <li className="flex items-start">
-              <div className="flex-shrink-0 mr-3 mt-1">
-                <Shield className="h-5 w-5" />
-              </div>
-              <p>
-                <strong className="font-medium">Military-grade encryption</strong>
-                <br />
-                Protect your sensitive information with AES-256, RSA, and more.
+        {/* Right Column - Hero Section */}
+        <div className="hidden md:flex md:w-1/2 flex-col items-center justify-center p-6 bg-gradient-to-br from-primary-600 to-primary-800 text-white">
+          <div className="max-w-md space-y-6">
+            <div className="space-y-2 text-center">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Secure Your Digital Future</h1>
+              <p className="text-lg">
+                CryptoVault provides enterprise-grade cryptographic tools for your most sensitive data.
               </p>
-            </li>
-            <li className="flex items-start">
-              <div className="flex-shrink-0 mr-3 mt-1">
-                <Lock className="h-5 w-5" />
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-3">
+                <div className="bg-white/10 p-2 rounded-full">
+                  <Shield className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-medium">Advanced Encryption</h3>
+                  <p className="text-sm text-white/70">Military-grade AES, RSA, and ChaCha20 algorithms</p>
+                </div>
               </div>
-              <p>
-                <strong className="font-medium">Client-side processing</strong>
-                <br />
-                All cryptographic operations happen in your browser for maximum
-                privacy.
-              </p>
-            </li>
-            <li className="flex items-start">
-              <div className="flex-shrink-0 mr-3 mt-1">
-                <Key className="h-5 w-5" />
+              <div className="flex items-center space-x-3">
+                <div className="bg-white/10 p-2 rounded-full">
+                  <Lock className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-medium">Client-Side Security</h3>
+                  <p className="text-sm text-white/70">All cryptographic operations happen in your browser</p>
+                </div>
               </div>
-              <p>
-                <strong className="font-medium">Secure key management</strong>
-                <br />
-                Generate and manage cryptographic keys with industry best
-                practices.
-              </p>
-            </li>
-          </ul>
+              <div className="flex items-center space-x-3">
+                <div className="bg-white/10 p-2 rounded-full">
+                  <KeyRound className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-medium">Secure Key Management</h3>
+                  <p className="text-sm text-white/70">Generate and store cryptographic keys safely</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
