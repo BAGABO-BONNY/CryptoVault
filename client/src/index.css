@@ -3,49 +3,80 @@
 @tailwind utilities;
 
 :root {
-      --background: 0 0% 100%;
---foreground: 20 14.3% 4.1%;
---muted: 60 4.8% 95.9%;
---muted-foreground: 25 5.3% 44.7%;
---popover: 0 0% 100%;
---popover-foreground: 20 14.3% 4.1%;
---card: 0 0% 100%;
---card-foreground: 20 14.3% 4.1%;
---border: 20 5.9% 90%;
---input: 20 5.9% 90%;
---primary: 207 90% 54%;
---primary-foreground: 211 100% 99%;
---secondary: 60 4.8% 95.9%;
---secondary-foreground: 24 9.8% 10%;
---accent: 60 4.8% 95.9%;
---accent-foreground: 24 9.8% 10%;
---destructive: 0 84.2% 60.2%;
---destructive-foreground: 60 9.1% 97.8%;
---ring: 20 14.3% 4.1%;
---radius: 0.5rem;
-  }
-  .dark {
-      --background: 240 10% 3.9%;
---foreground: 0 0% 98%;
---muted: 240 3.7% 15.9%;
---muted-foreground: 240 5% 64.9%;
---popover: 240 10% 3.9%;
---popover-foreground: 0 0% 98%;
---card: 240 10% 3.9%;
---card-foreground: 0 0% 98%;
---border: 240 3.7% 15.9%;
---input: 240 3.7% 15.9%;
---primary: 207 90% 54%;
---primary-foreground: 211 100% 99%;
---secondary: 240 3.7% 15.9%;
---secondary-foreground: 0 0% 98%;
---accent: 240 3.7% 15.9%;
---accent-foreground: 0 0% 98%;
---destructive: 0 62.8% 30.6%;
---destructive-foreground: 0 0% 98%;
---ring: 240 4.9% 83.9%;
---radius: 0.5rem;
-  }
+  /* Light theme colors */
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 47.4% 11.2%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  
+  /* Brand colors */
+  --primary: 207 90% 54%;
+  --primary-foreground: 210 40% 98%;
+  
+  /* Secondary and accent colors */
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  
+  /* Status colors */
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --success: 145 80% 42%;
+  --success-foreground: 210 40% 98%;
+  --warning: 45 100% 51%;
+  --warning-foreground: 222.2 47.4% 11.2%;
+  --info: 207 90% 54%;
+  --info-foreground: 210 40% 98%;
+  
+  /* Other UI elements */
+  --ring: 215 20.2% 65.1%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* Dark theme colors - deeper black for the true dark mode */
+  --background: 222 47% 5%;
+  --foreground: 213 31% 91%;
+  --muted: 223 47% 11%;
+  --muted-foreground: 215.4 16.3% 70%;
+  --popover: 222 47% 5%;
+  --popover-foreground: 213 31% 91%;
+  --card: 222 47% 8%;
+  --card-foreground: 213 31% 91%;
+  --border: 216 34% 17%;
+  --input: 216 34% 17%;
+  
+  /* Brand colors - slightly adjusted for dark mode */
+  --primary: 207 90% 54%;
+  --primary-foreground: 210 40% 98%;
+  
+  /* Secondary and accent colors */
+  --secondary: 222 47% 11%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 217 33% 17%;
+  --accent-foreground: 210 40% 98%;
+  
+  /* Status colors - adjusted for dark mode */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+  --success: 142 76% 36%;
+  --success-foreground: 210 40% 98%;
+  --warning: 35 100% 50%;
+  --warning-foreground: 210 40% 98%;
+  --info: 207 90% 54%;
+  --info-foreground: 210 40% 98%;
+  
+  /* Other UI elements */
+  --ring: 217 33% 17%;
+  --radius: 0.5rem;
+}
 
 @layer base {
   * {
@@ -53,6 +84,64 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply font-sans antialiased bg-background text-foreground transition-colors duration-200;
+  }
+  
+  /* Custom scrollbar for dark mode */
+  .dark ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .dark ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 5px;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb {
+    background: hsl(var(--accent));
+    border-radius: 5px;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary));
+  }
+}
+
+@layer components {
+  /* Component-specific styles */
+  .card {
+    @apply rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-200;
+  }
+  
+  .dashboard-card {
+    @apply card p-5 hover:shadow-md transition-all duration-200;
+  }
+  
+  /* Notification styles */
+  .notification-badge {
+    @apply absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-medium text-destructive-foreground;
+  }
+  
+  /* Dashboard stats card */
+  .stat-card {
+    @apply flex flex-col p-4 rounded-lg border border-border bg-card;
+  }
+  
+  .stat-card-icon {
+    @apply p-2 rounded-full mb-4 inline-flex;
+  }
+  
+  /* Input field with icon */
+  .input-with-icon {
+    @apply relative w-full;
+  }
+  
+  .input-with-icon input {
+    @apply pl-10;
+  }
+  
+  .input-with-icon .icon {
+    @apply absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground;
   }
 }

@@ -10,11 +10,15 @@ type ThemeProviderProps = {
 
 type ThemeProviderState = {
   theme: Theme
+  systemTheme: 'dark' | 'light'
+  resolvedTheme: 'dark' | 'light'
   setTheme: (theme: Theme) => void
 }
 
 const initialState: ThemeProviderState = {
   theme: 'system',
+  systemTheme: 'light',
+  resolvedTheme: 'light',
   setTheme: () => null,
 }
 
@@ -26,34 +30,63 @@ export function ThemeProvider({
   storageKey = 'ui-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
+  const [theme, setThemeState] = useState<Theme>(
     () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   )
+  
+  const [systemTheme, setSystemTheme] = useState<'dark' | 'light'>(
+    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  )
+  
+  // Calculate the resolved theme based on current theme setting
+  const resolvedTheme = theme === 'system' ? systemTheme : theme
 
+  // Listen for system theme changes
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSystemTheme(e.matches ? 'dark' : 'light')
+    }
+    
+    mediaQuery.addEventListener('change', handleChange)
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange)
+    }
+  }, [])
+
+  // Apply theme to document
   useEffect(() => {
     const root = window.document.documentElement
-
     root.classList.remove('light', 'dark')
-
-    if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-        .matches
-        ? 'dark'
-        : 'light'
-
-      root.classList.add(systemTheme)
-      return
+    
+    const themeToApply = theme === 'system' ? systemTheme : theme
+    root.classList.add(themeToApply)
+    
+    // Set data attribute for CSS selectors
+    root.setAttribute('data-theme', themeToApply)
+    
+    // Update meta theme-color for mobile browsers
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute(
+        'content',
+        themeToApply === 'dark' ? '#0f172a' : '#ffffff'
+      )
     }
+  }, [theme, systemTheme])
 
-    root.classList.add(theme)
-  }, [theme])
+  const setTheme = (theme: Theme) => {
+    localStorage.setItem(storageKey, theme)
+    setThemeState(theme)
+  }
 
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
-    },
+    systemTheme,
+    resolvedTheme,
+    setTheme,
   }
 
   return (

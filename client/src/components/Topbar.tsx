@@ -14,7 +14,10 @@ import {
   Clock,
   CheckCircle,
   ShieldAlert,
-  MessageCircle
+  MessageCircle,
+  Monitor,
+  Languages,
+  Check
 } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -27,6 +30,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuPortal,
+  DropdownMenuSubContent,
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
@@ -44,10 +53,27 @@ interface Notification {
   read: boolean;
 }
 
+type Language = 'en' | 'fr' | 'es' | 'de' | 'zh';
+
+interface LanguageOption {
+  value: Language;
+  label: string;
+  flag: string;
+}
+
+const languageOptions: LanguageOption[] = [
+  { value: 'en', label: 'English', flag: '🇺🇸' },
+  { value: 'fr', label: 'Français', flag: '🇫🇷' },
+  { value: 'es', label: 'Español', flag: '🇪🇸' },
+  { value: 'de', label: 'Deutsch', flag: '🇩🇪' },
+  { value: 'zh', label: '中文', flag: '🇨🇳' },
+];
+
 const Topbar = ({ toggleSidebar }: TopbarProps) => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, systemTheme, resolvedTheme } = useTheme();
   const [, navigate] = useLocation();
   const { toast } = useToast();
+  const [language, setLanguage] = useState<Language>('en');
   
   // Demo notifications
   const [notifications, setNotifications] = useState<Notification[]>([
@@ -79,11 +105,34 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
   
   const unreadCount = notifications.filter(n => !n.read).length;
   
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+  const getThemeIcon = () => {
+    if (theme === 'dark' || (theme === 'system' && systemTheme === 'dark')) {
+      return <Sun className="h-6 w-6" />;
+    } else if (theme === 'light' || (theme === 'system' && systemTheme === 'light')) {
+      return <Moon className="h-6 w-6" />;
+    } else {
+      return <Monitor className="h-6 w-6" />;
+    }
+  };
+  
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme as 'light' | 'dark' | 'system');
     toast({
-      title: `${theme === 'dark' ? 'Light' : 'Dark'} mode activated`,
-      description: `Switched to ${theme === 'dark' ? 'light' : 'dark'} theme`,
+      title: `${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)} theme activated`,
+      description: newTheme === 'system' 
+        ? `Using your system preference (${systemTheme} mode)` 
+        : `Switched to ${newTheme} theme`,
+    });
+  };
+  
+  const handleLanguageChange = (newLanguage: string) => {
+    setLanguage(newLanguage as Language);
+    
+    const selectedLang = languageOptions.find(lang => lang.value === newLanguage);
+    
+    toast({
+      title: `Language changed to ${selectedLang?.label}`,
+      description: `${selectedLang?.flag} The interface language has been updated`,
     });
   };
   
@@ -151,19 +200,66 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
         
         {/* Right side buttons */}
         <div className="flex items-center space-x-4">
+          {/* Language selector */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="p-1 rounded-full text-slate-400 hover:text-slate-500 dark:hover:text-white"
+              >
+                <Languages className="h-6 w-6" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Select Language</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuRadioGroup value={language} onValueChange={handleLanguageChange}>
+                {languageOptions.map((option) => (
+                  <DropdownMenuRadioItem key={option.value} value={option.value}>
+                    <div className="flex items-center">
+                      <span className="mr-2 text-base">{option.flag}</span>
+                      <span>{option.label}</span>
+                    </div>
+                  </DropdownMenuRadioItem>
+                ))}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
           {/* Theme switch */}
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={toggleTheme} 
-            className="p-1 rounded-full text-slate-400 hover:text-slate-500 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-          >
-            {theme === 'dark' ? (
-              <Sun className="h-6 w-6" />
-            ) : (
-              <Moon className="h-6 w-6" />
-            )}
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="p-1 rounded-full text-slate-400 hover:text-slate-500 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              >
+                {getThemeIcon()}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Theme</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuRadioGroup value={theme} onValueChange={handleThemeChange}>
+                <DropdownMenuRadioItem value="light">
+                  <Sun className="mr-2 h-4 w-4" />
+                  <span>Light</span>
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="dark">
+                  <Moon className="mr-2 h-4 w-4" />
+                  <span>Dark</span>
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="system">
+                  <Monitor className="mr-2 h-4 w-4" />
+                  <span>System</span>
+                  <span className="ml-auto text-xs text-slate-500 dark:text-slate-400">
+                    ({systemTheme})
+                  </span>
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
           
           {/* Notification bell */}
           <DropdownMenu>
