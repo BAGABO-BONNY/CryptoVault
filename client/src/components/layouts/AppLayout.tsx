@@ -1,6 +1,7 @@
 import React, { useState, ReactNode } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Topbar from '@/components/Topbar';
+import AccessibilityPanel from '@/components/AccessibilityPanel';
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -35,6 +36,9 @@ export function AppLayout({ children }: AppLayoutProps) {
           {children}
         </main>
       </div>
+      
+      {/* Accessibility Features */}
+      <AccessibilityPanel onToggleSidebar={toggleSidebar} />
     </div>
   );
 }
