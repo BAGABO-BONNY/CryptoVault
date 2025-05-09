@@ -15,7 +15,8 @@ import {
 
 const HomePage = () => {
   const [, navigate] = useLocation();
-  const { user } = useAuth();
+  // Temporarily comment out auth logic
+  const user = null; // simulate not logged in
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   const toggleFaq = (index: number) => {
