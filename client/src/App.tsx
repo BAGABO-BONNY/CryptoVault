@@ -1,10 +1,11 @@
 import TempHomePage from "@/pages/temp-home";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 function App() {
   return (
-    <div>
+    <ThemeProvider defaultTheme="system" storageKey="crypto-theme">
       <TempHomePage />
-    </div>
+    </ThemeProvider>
   );
 }
 
