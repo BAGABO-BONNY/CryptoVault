@@ -52,6 +52,15 @@ export class MemStorage implements IStorage {
   }
 
   private initializeData() {
+    // Add a demo user with hashed password (password = 'password123')
+    const demoUser: User = {
+      id: this.currentId++,
+      username: 'demo',
+      email: 'demo@example.com',
+      password: '8675b798b259ffcf4e16607a8ce608dfbcc11b8dd60ef608a2104f2fec7bdd4eb5d3b4e9c3c32987d64a28814739f34aa58e4cb74310c0879a179f22d83cb93c.9c2e91e93afc1d9e8f0a927c'
+    };
+    this.users.set(demoUser.id, demoUser);
+    
     // Initialize with some mock activities for demonstration
     const mockActivities: ActivityRecord[] = [
       {

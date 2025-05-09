@@ -6,11 +6,13 @@ import { z } from "zod";
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
+  email: text("email").notNull(),
   password: text("password").notNull(),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
+  email: true,
   password: true,
 });
 
@@ -24,7 +26,8 @@ export const activityRecords = pgTable("activity_records", {
   algorithm: text("algorithm").notNull(), // AES-256-GCM, SHA-256, etc.
   input: text("input").notNull(), // what was processed (truncated for privacy/storage)
   result: boolean("result").notNull(), // success or failure
-  timestamp: timestamp("timestamp").notNull().defaultNow(),
+  // Using text for timestamp instead of timestamp for simplicity in this prototype
+  timestamp: text("timestamp").notNull(),
 });
 
 export const activityRecordSchema = z.object({
