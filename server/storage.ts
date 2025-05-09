@@ -7,6 +7,11 @@ import {
   type Stats,
   type AlgorithmUsage
 } from "@shared/schema";
+import session from "express-session";
+import createMemoryStore from "memorystore";
+
+// Create a memory store for sessions
+const MemoryStore = createMemoryStore(session);
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -15,10 +20,14 @@ export interface IStorage {
   
   // Activity methods
   getActivityRecords(): Promise<ActivityRecord[]>;
+  getActivityRecordsByUserId(userId: number): Promise<ActivityRecord[]>;
   addActivityRecord(record: InsertActivityRecord): Promise<ActivityRecord>;
   getStats(): Promise<Stats>;
   getAlgorithmUsage(): Promise<AlgorithmUsage[]>;
   clearAll(): Promise<void>;
+  
+  // Session store
+  sessionStore: session.Store;
 }
 
 export class MemStorage implements IStorage {
@@ -26,12 +35,19 @@ export class MemStorage implements IStorage {
   private activities: Map<number, ActivityRecord>;
   private activityCurrentId: number;
   currentId: number;
+  sessionStore: session.Store;
 
   constructor() {
     this.users = new Map();
     this.activities = new Map();
     this.currentId = 1;
     this.activityCurrentId = 1;
+    
+    // Initialize session store
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000 // Clear expired sessions every 24h
+    });
+    
     this.initializeData();
   }
 
@@ -105,6 +121,12 @@ export class MemStorage implements IStorage {
   async getActivityRecords(): Promise<ActivityRecord[]> {
     return Array.from(this.activities.values())
       .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  }
+  
+  async getActivityRecordsByUserId(userId: number): Promise<ActivityRecord[]> {
+    // In a real database, we would filter by userId
+    // For this prototype, we'll just return all activities
+    return this.getActivityRecords();
   }
 
   async addActivityRecord(record: InsertActivityRecord): Promise<ActivityRecord> {
