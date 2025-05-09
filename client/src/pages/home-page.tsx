@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-// import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import {
   Shield,
@@ -15,8 +14,6 @@ import {
 
 const HomePage = () => {
   const [, navigate] = useLocation();
-  // Temporarily comment out auth logic
-  const user = null; // simulate not logged in
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   const toggleFaq = (index: number) => {
@@ -74,11 +71,7 @@ const HomePage = () => {
   ];
 
   const handleGetStarted = () => {
-    if (user) {
-      navigate("/dashboard");
-    } else {
-      navigate("/auth");
-    }
+    navigate("/auth");
   };
 
   return (
@@ -94,24 +87,16 @@ const HomePage = () => {
               </span>
             </div>
             <div className="flex items-center space-x-4">
-              {user ? (
-                <Button onClick={() => navigate("/dashboard")}>
-                  Go to Dashboard
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="ghost"
-                    onClick={() => navigate("/auth")}
-                    className="hidden sm:inline-flex"
-                  >
-                    Log In
-                  </Button>
-                  <Button onClick={() => navigate("/auth?tab=register")}>
-                    Sign Up
-                  </Button>
-                </>
-              )}
+              <Button
+                variant="ghost"
+                onClick={() => navigate("/auth")}
+                className="hidden sm:inline-flex"
+              >
+                Log In
+              </Button>
+              <Button onClick={() => navigate("/auth?tab=register")}>
+                Sign Up
+              </Button>
             </div>
           </div>
         </div>
