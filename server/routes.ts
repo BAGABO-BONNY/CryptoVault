@@ -8,12 +8,15 @@ import {
   statsSchema,
   insertActivityRecordSchema
 } from "@shared/schema";
+import { setupAuth } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup authentication routes and middleware
+  const { isAuthenticated } = setupAuth(app);
   // prefix all routes with /api
   
-  // Get dashboard stats
-  app.get('/api/stats', async (req, res) => {
+  // Get dashboard stats - protected endpoint
+  app.get('/api/stats', isAuthenticated, async (req, res) => {
     try {
       const stats = await storage.getStats();
       res.json(stats);
@@ -22,8 +25,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get activity records
-  app.get('/api/activities', async (req, res) => {
+  // Get activity records - protected endpoint
+  app.get('/api/activities', isAuthenticated, async (req, res) => {
     try {
       const activities = await storage.getActivityRecords();
       res.json(activities);
@@ -32,8 +35,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get algorithm usage data for charts
-  app.get('/api/algorithm-usage', async (req, res) => {
+  // Get algorithm usage data for charts - protected endpoint
+  app.get('/api/algorithm-usage', isAuthenticated, async (req, res) => {
     try {
       const algoUsage = await storage.getAlgorithmUsage();
       res.json(algoUsage);
@@ -310,8 +313,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Clear all data
-  app.post('/api/clear-data', async (req, res) => {
+  // Clear all data - protected admin endpoint
+  app.post('/api/clear-data', isAuthenticated, async (req, res) => {
     try {
       await storage.clearAll();
       res.json({
