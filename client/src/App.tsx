@@ -1,14 +1,12 @@
 import { Route, Switch } from "wouter";
-import TempHomePage from "@/pages/temp-home";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import NotFound from "@/pages/not-found";
+import HomePage from "@/pages/home-page";
 
 function App() {
   return (
     <ThemeProvider defaultTheme="system" storageKey="crypto-theme">
       <Switch>
-        <Route path="/" component={TempHomePage} />
-        <Route component={NotFound} />
+        <Route path="/" component={HomePage} />
       </Switch>
     </ThemeProvider>
   );
