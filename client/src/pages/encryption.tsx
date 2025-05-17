@@ -53,7 +53,10 @@ const Encryption = () => {
       });
       return response.json();
     },
-    onSuccess: (data: CryptoResult) => {
+    onSuccess: (data: any) => {
+      // Reset processing state
+      setIsProcessing(false);
+      
       if (data.success) {
         setEncryptedOutput(data.data || '');
         if (generateKey && data.key) {
@@ -73,6 +76,9 @@ const Encryption = () => {
       }
     },
     onError: (error: Error) => {
+      // Reset processing state
+      setIsProcessing(false);
+      
       toast({
         title: "Encryption failed",
         description: error.message,
@@ -91,7 +97,13 @@ const Encryption = () => {
       return;
     }
     
-    encryptMutation.mutate();
+    // Set the processing state to show loading skeletons
+    setIsProcessing(true);
+    
+    // Simulate a delay to showcase the loading skeletons
+    setTimeout(() => {
+      encryptMutation.mutate();
+    }, 1000);
   };
   
   const handleGenerateKey = () => {
@@ -100,8 +112,12 @@ const Encryption = () => {
     const array = new Uint8Array(keyLength);
     window.crypto.getRandomValues(array);
     
-    // Convert to base64
-    const key = btoa(String.fromCharCode(...array));
+    // Convert to base64 using a safer approach
+    let keyStr = '';
+    for (let i = 0; i < array.length; i++) {
+      keyStr += String.fromCharCode(array[i]);
+    }
+    const key = btoa(keyStr);
     setKey(key);
     
     toast({
@@ -269,10 +285,11 @@ const Encryption = () => {
                   showDownload={true}
                   fileName="encrypted.txt"
                   readOnly={true}
+                  isLoading={isProcessing}
                 />
                 
                 {/* Generated Key (if auto-generated) */}
-                {generateKey && generatedKey && (
+                {(generateKey && generatedKey) || isProcessing ? (
                   <CodeBlock
                     content={generatedKey}
                     title="Generated Key (Save this securely!)"
@@ -280,8 +297,9 @@ const Encryption = () => {
                     showDownload={true}
                     fileName="encryption-key.txt"
                     readOnly={true}
+                    isLoading={isProcessing}
                   />
-                )}
+                ) : null}
                 
                 {/* Encryption visualization */}
                 <div className="mt-4 flex justify-center">
