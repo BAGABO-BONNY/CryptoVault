@@ -8,6 +8,7 @@ import { SettingsProvider } from "@/pages/settings";
 import { AppLayout } from "@/components/layouts/AppLayout";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { LanguageProvider } from "@/hooks/use-language";
 import NotFound from "@/pages/not-found";
 
 // Import all pages
@@ -23,6 +24,7 @@ import Help from "@/pages/help";
 import About from "@/pages/about";
 import HomePage from "@/pages/home-page";
 import AuthPage from "@/pages/auth-page";
+import ProfilePage from "@/pages/profile";
 
 function Router() {
   return (
@@ -42,6 +44,7 @@ function Router() {
       <ProtectedRoute path="/digital-signature" component={DigitalSignature} />
       <ProtectedRoute path="/logs" component={Logs} />
       <ProtectedRoute path="/settings" component={Settings} />
+      <ProtectedRoute path="/profile" component={ProfilePage} />
       
       {/* Catch-all route */}
       <Route component={NotFound} />
@@ -53,16 +56,18 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system" storageKey="crypto-theme">
-        <AuthProvider>
-          <SettingsProvider>
-            <TooltipProvider>
-              <AppLayout>
-                <Router />
-              </AppLayout>
-              <Toaster />
-            </TooltipProvider>
-          </SettingsProvider>
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <SettingsProvider>
+              <TooltipProvider>
+                <AppLayout>
+                  <Router />
+                </AppLayout>
+                <Toaster />
+              </TooltipProvider>
+            </SettingsProvider>
+          </AuthProvider>
+        </LanguageProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

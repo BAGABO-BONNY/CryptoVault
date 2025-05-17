@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '@/components/ThemeProvider';
 import { useLocation } from 'wouter';
+import { useAuth } from '@/hooks/use-auth';
+import { useLanguage, LANGUAGE_OPTIONS } from '@/hooks/use-language';
 import { 
   Menu, 
   Search,
@@ -53,27 +55,14 @@ interface Notification {
   read: boolean;
 }
 
-type Language = 'en' | 'fr' | 'es' | 'de' | 'zh';
-
-interface LanguageOption {
-  value: Language;
-  label: string;
-  flag: string;
-}
-
-const languageOptions: LanguageOption[] = [
-  { value: 'en', label: 'English', flag: '🇺🇸' },
-  { value: 'fr', label: 'Français', flag: '🇫🇷' },
-  { value: 'es', label: 'Español', flag: '🇪🇸' },
-  { value: 'de', label: 'Deutsch', flag: '🇩🇪' },
-  { value: 'zh', label: '中文', flag: '🇨🇳' },
-];
+// Language types are now imported from use-language.tsx
 
 const Topbar = ({ toggleSidebar }: TopbarProps) => {
   const { theme, setTheme, systemTheme, resolvedTheme } = useTheme();
   const [, navigate] = useLocation();
   const { toast } = useToast();
-  const [language, setLanguage] = useState<Language>('en');
+  const { language, setLanguage, t } = useLanguage();
+  const { user, logoutMutation } = useAuth();
   
   // Demo notifications
   const [notifications, setNotifications] = useState<Notification[]>([
@@ -126,9 +115,9 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
   };
   
   const handleLanguageChange = (newLanguage: string) => {
-    setLanguage(newLanguage as Language);
+    setLanguage(newLanguage as any);
     
-    const selectedLang = languageOptions.find(lang => lang.value === newLanguage);
+    const selectedLang = LANGUAGE_OPTIONS.find((lang: any) => lang.value === newLanguage);
     
     toast({
       title: `Language changed to ${selectedLang?.label}`,
@@ -157,9 +146,14 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
   };
   
   const handleLogout = () => {
-    toast({
-      title: "Logged out",
-      description: "You have been logged out successfully",
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        navigate('/auth');
+        toast({
+          title: "Logged out",
+          description: "You have been logged out successfully",
+        });
+      }
     });
   };
   
@@ -215,7 +209,7 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
               <DropdownMenuLabel>Select Language</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuRadioGroup value={language} onValueChange={handleLanguageChange}>
-                {languageOptions.map((option) => (
+                {LANGUAGE_OPTIONS.map((option: any) => (
                   <DropdownMenuRadioItem key={option.value} value={option.value}>
                     <div className="flex items-center">
                       <span className="mr-2 text-base">{option.flag}</span>
@@ -349,12 +343,12 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">Alice Smith</p>
-                  <p className="text-xs leading-none text-slate-500 dark:text-slate-400">alice@cryptovault.example.com</p>
+                  <p className="text-sm font-medium leading-none">{user?.username || 'Guest'}</p>
+                  <p className="text-xs leading-none text-slate-500 dark:text-slate-400">{user?.email || 'Not logged in'}</p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => toast({ title: "Profile", description: "Profile page not implemented yet" })}>
+              <DropdownMenuItem onClick={() => navigate('/profile')}>
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
               </DropdownMenuItem>
@@ -363,9 +357,12 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
                 <span>Settings</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout}>
+              <DropdownMenuItem 
+                onClick={handleLogout}
+                disabled={logoutMutation.isPending}
+              >
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+                <span>{logoutMutation.isPending ? "Logging out..." : "Log out"}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
