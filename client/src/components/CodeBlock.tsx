@@ -4,6 +4,7 @@ import { CheckCircle, Copy, Download } from 'lucide-react';
 import { copyToClipboard, downloadFile } from '@/lib/utils';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface CodeBlockProps {
   content: string;

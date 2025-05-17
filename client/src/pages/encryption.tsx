@@ -17,9 +17,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { Skeleton } from '@/components/ui/skeleton';
 import AlgoSelectDropdown from '@/components/AlgoSelectDropdown';
 import FileUploader from '@/components/FileUploader';
 import CodeBlock from '@/components/CodeBlock';
+import { CryptoToolSkeleton } from '@/components/SkeletonLoaders';
 import type { CryptoAlgorithm, OutputFormat, CryptoResult } from '@/types';
 
 const Encryption = () => {
@@ -116,6 +118,11 @@ const Encryption = () => {
     setGeneratedKey('');
     setFile(null);
   };
+  
+  // Show loading skeletons while encrypting
+  if (encryptMutation.isPending) {
+    return <CryptoToolSkeleton />;
+  }
   
   return (
     <div>

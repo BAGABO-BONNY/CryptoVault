@@ -10,11 +10,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Shield, User, Mail, Key, Lock, LogOut, Activity, Settings } from "lucide-react";
 import { useLocation } from "wouter";
 
+import { ProfileSkeleton } from "@/components/SkeletonLoaders";
+
 const ProfilePage = () => {
-  const { user, logoutMutation } = useAuth();
+  const { user, logoutMutation, isLoading } = useAuth();
   const { toast } = useToast();
   const [, navigate] = useLocation();
   const [activeTab, setActiveTab] = useState("profile");
+  const [isUpdating, setIsUpdating] = useState(false);
   
   // User info state
   const [name, setName] = useState("");
@@ -37,19 +40,36 @@ const ProfilePage = () => {
   
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Profile updated",
-      description: "Your profile information has been updated successfully.",
-    });
+    setIsUpdating(true);
+    
+    // Simulate API call delay
+    setTimeout(() => {
+      setIsUpdating(false);
+      toast({
+        title: "Profile updated",
+        description: "Your profile information has been updated successfully.",
+      });
+    }, 800);
   };
   
   const handleChangePassword = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Password changed",
-      description: "Your password has been changed successfully.",
-    });
+    setIsUpdating(true);
+    
+    // Simulate API call delay
+    setTimeout(() => {
+      setIsUpdating(false);
+      toast({
+        title: "Password changed",
+        description: "Your password has been changed successfully.",
+      });
+    }, 800);
   };
+  
+  // Show skeleton while loading user data
+  if (isLoading) {
+    return <ProfileSkeleton />;
+  }
   
   if (!user) {
     return null;
