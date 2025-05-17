@@ -18,6 +18,7 @@ interface CodeBlockProps {
   onChange?: (content: string) => void;
   className?: string;
   rows?: number;
+  isLoading?: boolean;
 }
 
 const CodeBlock = ({
@@ -31,7 +32,8 @@ const CodeBlock = ({
   readOnly = true,
   onChange,
   className,
-  rows = 6
+  rows = 6,
+  isLoading = false
 }: CodeBlockProps) => {
   const [copied, setCopied] = useState(false);
   
@@ -57,9 +59,13 @@ const CodeBlock = ({
     <div className={cn("relative", className)}>
       {title && (
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-            {title}
-          </span>
+          {isLoading ? (
+            <Skeleton className="h-5 w-32" />
+          ) : (
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              {title}
+            </span>
+          )}
           <div className="flex space-x-2">
             {showCopy && (
               <Button
@@ -100,20 +106,30 @@ const CodeBlock = ({
         </div>
       )}
       
-      <Textarea
-        value={content}
-        onChange={handleChange}
-        rows={rows}
-        readOnly={readOnly}
-        className={cn(
-          "font-mono text-sm block w-full rounded-md border",
-          readOnly 
-            ? "bg-slate-50 dark:bg-slate-800" 
-            : "bg-white dark:bg-slate-700",
-          "focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-        )}
-        placeholder={readOnly ? "Output will appear here" : "Enter text..."}
-      />
+      {isLoading ? (
+        <div className="p-4 space-y-3 bg-slate-50 dark:bg-slate-800 min-h-[100px]">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-11/12" />
+          <Skeleton className="h-4 w-4/5" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-3/4" />
+        </div>
+      ) : (
+        <Textarea
+          value={content}
+          onChange={handleChange}
+          rows={rows}
+          readOnly={readOnly}
+          className={cn(
+            "font-mono text-sm block w-full rounded-md border",
+            readOnly 
+              ? "bg-slate-50 dark:bg-slate-800" 
+              : "bg-white dark:bg-slate-700",
+            "focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          )}
+          placeholder={readOnly ? "Output will appear here" : "Enter text..."}
+        />
+      )}
     </div>
   );
 };

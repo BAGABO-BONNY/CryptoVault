@@ -39,6 +39,9 @@ const Encryption = () => {
   const [generatedKey, setGeneratedKey] = useState('');
   const [file, setFile] = useState<File | null>(null);
   
+  // UI state
+  const [isProcessing, setIsProcessing] = useState(false);
+  
   // Handle encryption logic
   const encryptMutation = useMutation({
     mutationFn: async () => {
