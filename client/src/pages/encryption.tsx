@@ -100,10 +100,10 @@ const Encryption = () => {
     // Set the processing state to show loading skeletons
     setIsProcessing(true);
     
-    // Simulate a delay to showcase the loading skeletons
+    // Simulate a longer delay to better showcase the loading skeletons
     setTimeout(() => {
       encryptMutation.mutate();
-    }, 1000);
+    }, 3000);
   };
   
   const handleGenerateKey = () => {

@@ -107,12 +107,16 @@ const CodeBlock = ({
       )}
       
       {isLoading ? (
-        <div className="p-4 space-y-3 bg-slate-50 dark:bg-slate-800 min-h-[100px]">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-11/12" />
-          <Skeleton className="h-4 w-4/5" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-3/4" />
+        <div className="p-4 space-y-4 bg-slate-50 dark:bg-slate-800 min-h-[150px] rounded border border-slate-200 dark:border-slate-700">
+          <div className="flex items-center space-x-2 mb-2">
+            <div className="h-3 w-3 rounded-full bg-primary animate-pulse"></div>
+            <p className="text-xs text-slate-500">Loading data...</p>
+          </div>
+          <Skeleton className="h-5 w-full" />
+          <Skeleton className="h-5 w-11/12" />
+          <Skeleton className="h-5 w-4/5" />
+          <Skeleton className="h-5 w-full" />
+          <Skeleton className="h-5 w-3/4" />
         </div>
       ) : (
         <Textarea

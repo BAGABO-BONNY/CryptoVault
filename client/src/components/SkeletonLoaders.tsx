@@ -78,20 +78,20 @@ export function ActivityListSkeleton() {
 export function CryptoToolSkeleton() {
   return (
     <div className="container py-6">
-      <Skeleton className="h-8 w-[300px] mb-6" />
+      <Skeleton className="h-10 w-[300px] mb-6" />
       <div className="grid gap-6 md:grid-cols-2">
         <div className="flex flex-col space-y-4">
-          <Skeleton className="h-5 w-[150px]" />
+          <Skeleton className="h-6 w-[150px]" />
           <Skeleton className="h-12 w-full" />
           
-          <Skeleton className="h-5 w-[140px] mt-4" />
+          <Skeleton className="h-6 w-[140px] mt-4" />
           <Skeleton className="h-[200px] w-full" />
           
-          <Skeleton className="h-10 w-[100px] mt-4 self-end" />
+          <Skeleton className="h-12 w-[120px] mt-4 self-end" />
         </div>
         
         <div className="flex flex-col space-y-4">
-          <Skeleton className="h-5 w-[150px]" />
+          <Skeleton className="h-6 w-[150px]" />
           <Skeleton className="h-[300px] w-full" />
         </div>
       </div>
