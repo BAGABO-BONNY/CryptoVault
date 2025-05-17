@@ -86,52 +86,44 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                     Encryption
                   </Link>
                   
-                  <Link href="/decryption">
-                    <a className={cn(
-                      "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                      isActive("/decryption") 
-                        ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
-                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
-                    )}>
-                      <Unlock className="h-5 w-5 mr-3 text-slate-400" />
-                      Decryption
-                    </a>
+                  <Link href="/decryption" className={cn(
+                    "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                    isActive("/decryption") 
+                      ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
+                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                  )}>
+                    <Unlock className="h-5 w-5 mr-3 text-slate-400" />
+                    Decryption
                   </Link>
                   
-                  <Link href="/hashing">
-                    <a className={cn(
-                      "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                      isActive("/hashing") 
-                        ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
-                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
-                    )}>
-                      <ShieldCheck className="h-5 w-5 mr-3 text-slate-400" />
-                      Hashing
-                    </a>
+                  <Link href="/hashing" className={cn(
+                    "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                    isActive("/hashing") 
+                      ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
+                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                  )}>
+                    <ShieldCheck className="h-5 w-5 mr-3 text-slate-400" />
+                    Hashing
                   </Link>
                   
-                  <Link href="/key-generator">
-                    <a className={cn(
-                      "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                      isActive("/key-generator") 
-                        ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
-                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
-                    )}>
-                      <Key className="h-5 w-5 mr-3 text-slate-400" />
-                      Key Generator
-                    </a>
+                  <Link href="/key-generator" className={cn(
+                    "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                    isActive("/key-generator") 
+                      ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
+                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                  )}>
+                    <Key className="h-5 w-5 mr-3 text-slate-400" />
+                    Key Generator
                   </Link>
                   
-                  <Link href="/digital-signature">
-                    <a className={cn(
-                      "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                      isActive("/digital-signature") 
-                        ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
-                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
-                    )}>
-                      <FileSignature className="h-5 w-5 mr-3 text-slate-400" />
-                      Digital Signatures
-                    </a>
+                  <Link href="/digital-signature" className={cn(
+                    "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                    isActive("/digital-signature") 
+                      ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
+                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                  )}>
+                    <FileSignature className="h-5 w-5 mr-3 text-slate-400" />
+                    Digital Signatures
                   </Link>
                 </div>
               </li>
@@ -141,52 +133,44 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                   Application
                 </h3>
                 <div className="mt-2 space-y-1">
-                  <Link href="/logs">
-                    <a className={cn(
-                      "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                      isActive("/logs") 
-                        ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
-                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
-                    )}>
-                      <List className="h-5 w-5 mr-3 text-slate-400" />
-                      Logs & History
-                    </a>
+                  <Link href="/logs" className={cn(
+                    "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                    isActive("/logs") 
+                      ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
+                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                  )}>
+                    <List className="h-5 w-5 mr-3 text-slate-400" />
+                    Logs & History
                   </Link>
                   
-                  <Link href="/settings">
-                    <a className={cn(
-                      "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                      isActive("/settings") 
-                        ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
-                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
-                    )}>
-                      <Settings className="h-5 w-5 mr-3 text-slate-400" />
-                      Settings
-                    </a>
+                  <Link href="/settings" className={cn(
+                    "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                    isActive("/settings") 
+                      ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
+                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                  )}>
+                    <Settings className="h-5 w-5 mr-3 text-slate-400" />
+                    Settings
                   </Link>
                   
-                  <Link href="/help">
-                    <a className={cn(
-                      "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                      isActive("/help") 
-                        ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
-                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
-                    )}>
-                      <HelpCircle className="h-5 w-5 mr-3 text-slate-400" />
-                      Help & Documentation
-                    </a>
+                  <Link href="/help" className={cn(
+                    "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                    isActive("/help") 
+                      ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
+                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                  )}>
+                    <HelpCircle className="h-5 w-5 mr-3 text-slate-400" />
+                    Help & Documentation
                   </Link>
                   
-                  <Link href="/about">
-                    <a className={cn(
-                      "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                      isActive("/about") 
-                        ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
-                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
-                    )}>
-                      <Info className="h-5 w-5 mr-3 text-slate-400" />
-                      About
-                    </a>
+                  <Link href="/about" className={cn(
+                    "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                    isActive("/about") 
+                      ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
+                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                  )}>
+                    <Info className="h-5 w-5 mr-3 text-slate-400" />
+                    About
                   </Link>
                 </div>
               </li>
