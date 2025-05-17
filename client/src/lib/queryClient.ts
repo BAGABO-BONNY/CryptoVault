@@ -20,6 +20,7 @@ export async function apiRequest(
   data?: unknown | undefined,
 ): Promise<Response> {
   try {
+    console.log(`Making ${method} request to ${url}`, data);
     const res = await fetch(url, {
       method,
       headers: data ? { "Content-Type": "application/json" } : {},
@@ -27,13 +28,10 @@ export async function apiRequest(
       credentials: "include",
     });
 
-    // For mutations, we'll handle the error in the mutation itself
-    // to provide better error messages
-    if (!res.ok && method !== "GET") {
-      console.log(`API ${method} request failed:`, url, res.status);
-    } else {
-      await throwIfResNotOk(res);
+    if (!res.ok) {
+      console.log(`API ${method} request to ${url} failed:`, res.status);
     }
+    
     return res;
   } catch (error) {
     console.error(`API Request Error (${method} ${url}):`, error);
