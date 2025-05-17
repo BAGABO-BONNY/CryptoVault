@@ -56,11 +56,15 @@ const ProfilePage = () => {
   }
   
   // Generate initials for avatar fallback
-  const initials = user.username
-    .split(' ')
-    .map(name => name[0])
-    .join('')
-    .toUpperCase();
+  const initials = typeof user.username === 'string' && user.username 
+    ? user.username.includes(' ')
+      ? user.username
+          .split(' ')
+          .map(name => name[0])
+          .join('')
+          .toUpperCase()
+      : user.username.substring(0, 2).toUpperCase()
+    : "U";
   
   return (
     <div className="container py-10">
