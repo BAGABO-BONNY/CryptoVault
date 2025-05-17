@@ -60,16 +60,14 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
           <nav className="p-4" data-component="sidebar-navigation">
             <ul className="space-y-1">
               <li>
-                <Link href="/dashboard">
-                  <a className={cn(
-                    "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                    isActive("/dashboard") 
-                      ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
-                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
-                  )}>
-                    <Home className="h-5 w-5 mr-3" />
-                    Dashboard
-                  </a>
+                <Link href="/dashboard" className={cn(
+                  "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                  isActive("/dashboard") 
+                    ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
+                    : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                )}>
+                  <Home className="h-5 w-5 mr-3" />
+                  Dashboard
                 </Link>
               </li>
               
@@ -78,16 +76,14 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                   Cryptography Tools
                 </h3>
                 <div className="mt-2 space-y-1">
-                  <Link href="/encryption">
-                    <a className={cn(
-                      "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                      isActive("/encryption") 
-                        ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
-                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
-                    )}>
-                      <Lock className="h-5 w-5 mr-3 text-slate-400" />
-                      Encryption
-                    </a>
+                  <Link href="/encryption" className={cn(
+                    "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                    isActive("/encryption") 
+                      ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
+                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                  )}>
+                    <Lock className="h-5 w-5 mr-3 text-slate-400" />
+                    Encryption
                   </Link>
                   
                   <Link href="/decryption">

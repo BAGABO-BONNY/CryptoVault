@@ -52,12 +52,13 @@ export class MemStorage implements IStorage {
   }
 
   private initializeData() {
-    // Add a demo user with hashed password (password = 'password123')
+    // Add a demo user with a simpler hashed password (password = 'password123')
+    // Using a fixed salt for demo purposes
     const demoUser: User = {
       id: this.currentId++,
       username: 'demo',
       email: 'demo@example.com',
-      password: '8675b798b259ffcf4e16607a8ce608dfbcc11b8dd60ef608a2104f2fec7bdd4eb5d3b4e9c3c32987d64a28814739f34aa58e4cb74310c0879a179f22d83cb93c.9c2e91e93afc1d9e8f0a927c'
+      password: '5ba89df7d3dbc9c2f9c748c2a69d1534c8453283322a2b91977aa7ebc9f3dae34a603e33991868c80e1c826c1130117e2c7f2c82694a39eb2c95ceb73fa40c36.5ec87ce461a46623'
     };
     this.users.set(demoUser.id, demoUser);
     
