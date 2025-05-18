@@ -25,6 +25,7 @@ export const LANGUAGE_OPTIONS = [
 const translations = {
   en: {
     // Navigation
+    home: 'Home',
     dashboard: 'Dashboard',
     encryption: 'Encryption',
     decryption: 'Decryption',
