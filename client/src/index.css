@@ -3,37 +3,37 @@
 @tailwind utilities;
 
 :root {
-  /* Light theme colors */
-  --background: 0 0% 100%;
+  /* Light theme colors - enhanced with more vibrant and attractive colors */
+  --background: 216 33% 97%;
   --foreground: 222 47% 11%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
+  --muted: 210 40% 93%;
+  --muted-foreground: 215 25% 40%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 47.4% 11.2%;
+  --popover-foreground: 222 47% 11%;
   --card: 0 0% 100%;
-  --card-foreground: 222.2 47.4% 11.2%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
+  --card-foreground: 222 47% 11%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
   
-  /* Brand colors */
-  --primary: 207 90% 54%;
-  --primary-foreground: 210 40% 98%;
+  /* Brand colors - more vibrant blue */
+  --primary: 210 100% 50%;
+  --primary-foreground: 0 0% 100%;
   
-  /* Secondary and accent colors */
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
+  /* Secondary and accent colors - more distinct */
+  --secondary: 262 83% 98%;
+  --secondary-foreground: 222 47% 11%;
+  --accent: 199 89% 48%;
+  --accent-foreground: 0 0% 100%;
   
-  /* Status colors */
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --success: 145 80% 42%;
-  --success-foreground: 210 40% 98%;
-  --warning: 45 100% 51%;
-  --warning-foreground: 222.2 47.4% 11.2%;
-  --info: 207 90% 54%;
-  --info-foreground: 210 40% 98%;
+  /* Status colors - enhanced for better visual appeal */
+  --destructive: 0 90% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --success: 142 76% 45%;
+  --success-foreground: 0 0% 100%;
+  --warning: 35 95% 55%;
+  --warning-foreground: 0 0% 10%;
+  --info: 199 89% 48%;
+  --info-foreground: 0 0% 100%;
   
   /* Other UI elements */
   --ring: 215 20.2% 65.1%;
