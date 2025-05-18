@@ -268,7 +268,7 @@ const Encryption = () => {
                       onChange={(e) => setInputText(e.target.value)}
                       disabled={encryptMutation.isPending}
                       rows={6}
-                      placeholder="Enter text to encrypt"
+                      placeholder={t('enterTextToEncrypt')}
                       className="resize-none"
                     />
                   ) : (
@@ -282,7 +282,7 @@ const Encryption = () => {
                 {/* Output */}
                 <CodeBlock
                   content={encryptedOutput}
-                  title="Encrypted Output"
+                  title={t('encryptedOutput')}
                   showCopy={true}
                   showDownload={true}
                   fileName="encrypted.txt"
@@ -294,7 +294,7 @@ const Encryption = () => {
                 {(generateKey && generatedKey) || isProcessing ? (
                   <CodeBlock
                     content={generatedKey}
-                    title="Generated Key (Save this securely!)"
+                    title={t('generatedKey')}
                     showCopy={true}
                     showDownload={true}
                     fileName="encryption-key.txt"

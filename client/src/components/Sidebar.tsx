@@ -13,7 +13,8 @@ import {
   List, 
   Settings, 
   HelpCircle, 
-  Info
+  Info,
+  LayoutDashboard
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -62,13 +63,24 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
           <nav className="p-4" data-component="sidebar-navigation">
             <ul className="space-y-1">
               <li>
+                <Link href="/" className={cn(
+                  "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                  isActive("/") 
+                    ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
+                    : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                )}>
+                  <Home className="h-5 w-5 mr-3" />
+                  {t('home')}
+                </Link>
+              </li>
+              <li>
                 <Link href="/dashboard" className={cn(
                   "flex items-center px-3 py-2 text-sm font-medium rounded-md",
                   isActive("/dashboard") 
                     ? "bg-primary-50 text-primary-700 dark:bg-primary-900/50 dark:text-primary-100" 
                     : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
                 )}>
-                  <Home className="h-5 w-5 mr-3" />
+                  <LayoutDashboard className="h-5 w-5 mr-3" />
                   {t('dashboard')}
                 </Link>
               </li>

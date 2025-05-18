@@ -102,6 +102,9 @@ const translations = {
     aesKeyHelp: 'For AES-256, enter a 32-byte key or let the system generate one.',
     uploadFile: 'Upload File',
     clear: 'Clear',
+    enterTextToEncrypt: 'Enter text to encrypt',
+    encryptedOutput: 'Encrypted Output',
+    generatedKey: 'Generated Key (Save this securely!)',
     
     // Settings
     theme: 'Theme',
