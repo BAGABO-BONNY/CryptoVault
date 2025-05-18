@@ -200,17 +200,17 @@ const Encryption = () => {
                     disabled={generateKey || encryptMutation.isPending}
                     className="ml-2"
                   >
-                    Generate
+                    {t('generate')}
                   </Button>
                 </div>
                 
                 <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                  For AES-256, enter a 32-byte key or let the system generate one.
+                  {t('aesKeyHelp')}
                 </div>
               </div>
               
               <div>
-                <Label htmlFor="outputFormat">Output Format</Label>
+                <Label htmlFor="outputFormat">{t('outputFormat')}</Label>
                 <div className="mt-1">
                   <Select 
                     value={outputFormat} 
@@ -238,7 +238,7 @@ const Encryption = () => {
                   disabled={!inputText || encryptMutation.isPending}
                 >
                   <Lock className="h-5 w-5" />
-                  {encryptMutation.isPending ? 'Encrypting...' : 'Encrypt'}
+                  {encryptMutation.isPending ? t('encryptingText') : t('encryptBtn')}
                 </Button>
               </div>
             </div>
@@ -249,7 +249,7 @@ const Encryption = () => {
                 {/* Input */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <Label htmlFor="input-text">Input Text</Label>
+                    <Label htmlFor="input-text">{t('inputText')}</Label>
                     <Button 
                       variant="outline" 
                       size="sm"
@@ -257,7 +257,7 @@ const Encryption = () => {
                       className="gap-1"
                     >
                       <Upload className="h-4 w-4" />
-                      Upload File
+                      {t('uploadFile')}
                     </Button>
                   </div>
                   
