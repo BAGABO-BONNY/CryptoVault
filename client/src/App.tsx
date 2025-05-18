@@ -58,14 +58,12 @@ function App() {
       <ThemeProvider defaultTheme="system" storageKey="crypto-theme">
         <LanguageProvider>
           <AuthProvider>
-            <SettingsProvider>
-              <TooltipProvider>
-                <AppLayout>
-                  <Router />
-                </AppLayout>
-                <Toaster />
-              </TooltipProvider>
-            </SettingsProvider>
+            <TooltipProvider>
+              <AppLayout>
+                <Router />
+              </AppLayout>
+              <Toaster />
+            </TooltipProvider>
           </AuthProvider>
         </LanguageProvider>
       </ThemeProvider>

@@ -1,110 +1,101 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
-type Theme = 'light' | 'dark' | 'system';
+type Theme = 'dark' | 'light' | 'system'
 
-interface ThemeProviderProps {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-  storageKey?: string;
+type ThemeProviderProps = {
+  children: React.ReactNode
+  defaultTheme?: Theme
+  storageKey?: string
 }
 
-type ThemeContextType = {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-  systemTheme: 'light' | 'dark';
-  resolvedTheme: 'light' | 'dark';
-};
+type ThemeProviderState = {
+  theme: Theme
+  systemTheme: 'dark' | 'light'
+  resolvedTheme: 'dark' | 'light'
+  setTheme: (theme: Theme) => void
+}
 
-const ThemeContext = createContext<ThemeContextType | null>(null);
+const initialState: ThemeProviderState = {
+  theme: 'system',
+  systemTheme: 'light',
+  resolvedTheme: 'light',
+  setTheme: () => null,
+}
+
+const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
   storageKey = 'ui-theme',
+  ...props
 }: ThemeProviderProps) {
-  // Get the initial theme from localStorage or use the default
-  const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem(storageKey);
-    return (savedTheme as Theme) || defaultTheme;
-  });
-
-  // Track system theme preference
-  const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(
-    typeof window !== 'undefined'
-      ? window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light'
-      : 'light'
-  );
-
-  // Calculate the effective theme
-  const resolvedTheme = theme === 'system' ? systemTheme : theme;
+  const [theme, setThemeState] = useState<Theme>(
+    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+  )
+  
+  const [systemTheme, setSystemTheme] = useState<'dark' | 'light'>(
+    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  )
+  
+  // Calculate the resolved theme based on current theme setting
+  const resolvedTheme = theme === 'system' ? systemTheme : theme
 
   // Listen for system theme changes
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    
     const handleChange = (e: MediaQueryListEvent) => {
-      setSystemTheme(e.matches ? 'dark' : 'light');
-    };
+      setSystemTheme(e.matches ? 'dark' : 'light')
+    }
+    
+    mediaQuery.addEventListener('change', handleChange)
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange)
+    }
+  }, [])
 
-    // Add event listener
-    mediaQuery.addEventListener('change', handleChange);
-
-    // Cleanup
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  // Apply theme to the document
+  // Apply theme to document
   useEffect(() => {
-    const root = document.documentElement;
-    root.classList.remove('light', 'dark');
+    const root = window.document.documentElement
+    root.classList.remove('light', 'dark')
     
-    // Apply the resolved theme
-    const themeToApply = theme === 'system' ? systemTheme : theme;
-    root.classList.add(themeToApply);
+    const themeToApply = resolvedTheme
+    root.classList.add(themeToApply)
     
-    // Update body class for compatibility
+    // Update body class for compatibility with some components
     if (themeToApply === 'dark') {
-      document.body.classList.add('dark');
+      document.body.classList.add('dark')
     } else {
-      document.body.classList.remove('dark');
+      document.body.classList.remove('dark')
     }
-    
-    // Update meta theme-color
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      metaThemeColor.setAttribute(
-        'content',
-        themeToApply === 'dark' ? '#0f172a' : '#ffffff'
-      );
-    }
-  }, [theme, systemTheme]);
+  }, [resolvedTheme])
 
-  // Save theme to localStorage when it changes
-  useEffect(() => {
-    localStorage.setItem(storageKey, theme);
-  }, [theme, storageKey]);
+  const setTheme = (theme: Theme) => {
+    localStorage.setItem(storageKey, theme)
+    setThemeState(theme)
+  }
 
-  // Provide the theme context
+  const value = {
+    theme,
+    systemTheme,
+    resolvedTheme,
+    setTheme,
+  }
+
   return (
-    <ThemeContext.Provider
-      value={{
-        theme,
-        setTheme: (t) => setTheme(t),
-        systemTheme,
-        resolvedTheme,
-      }}
-    >
+    <ThemeProviderContext.Provider {...props} value={value}>
       {children}
-    </ThemeContext.Provider>
-  );
+    </ThemeProviderContext.Provider>
+  )
 }
 
-export function useTheme() {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
+export const useTheme = () => {
+  const context = useContext(ThemeProviderContext)
+
+  if (context === undefined)
+    throw new Error('useTheme must be used within a ThemeProvider')
+
+  return context
 }
