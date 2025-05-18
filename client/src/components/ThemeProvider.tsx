@@ -1,113 +1,110 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-type Theme = 'dark' | 'light' | 'system'
+type Theme = 'light' | 'dark' | 'system';
 
-type ThemeProviderProps = {
-  children: React.ReactNode
-  defaultTheme?: Theme
-  storageKey?: string
+interface ThemeProviderProps {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+  storageKey?: string;
 }
 
-type ThemeProviderState = {
-  theme: Theme
-  systemTheme: 'dark' | 'light'
-  resolvedTheme: 'dark' | 'light'
-  setTheme: (theme: Theme) => void
-}
+type ThemeContextType = {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+  systemTheme: 'light' | 'dark';
+  resolvedTheme: 'light' | 'dark';
+};
 
-const initialState: ThemeProviderState = {
-  theme: 'system',
-  systemTheme: 'light',
-  resolvedTheme: 'light',
-  setTheme: () => null,
-}
-
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
   storageKey = 'ui-theme',
-  ...props
 }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
-  
-  const [systemTheme, setSystemTheme] = useState<'dark' | 'light'>(
-    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-  )
-  
-  // Calculate the resolved theme based on current theme setting
-  const resolvedTheme = theme === 'system' ? systemTheme : theme
+  // Get the initial theme from localStorage or use the default
+  const [theme, setTheme] = useState<Theme>(() => {
+    const savedTheme = localStorage.getItem(storageKey);
+    return (savedTheme as Theme) || defaultTheme;
+  });
+
+  // Track system theme preference
+  const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light'
+      : 'light'
+  );
+
+  // Calculate the effective theme
+  const resolvedTheme = theme === 'system' ? systemTheme : theme;
 
   // Listen for system theme changes
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      setSystemTheme(e.matches ? 'dark' : 'light')
-    }
-    
-    mediaQuery.addEventListener('change', handleChange)
-    
-    return () => {
-      mediaQuery.removeEventListener('change', handleChange)
-    }
-  }, [])
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-  // Apply theme to document
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSystemTheme(e.matches ? 'dark' : 'light');
+    };
+
+    // Add event listener
+    mediaQuery.addEventListener('change', handleChange);
+
+    // Cleanup
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  // Apply theme to the document
   useEffect(() => {
-    const root = window.document.documentElement
-    root.classList.remove('light', 'dark')
+    const root = document.documentElement;
+    root.classList.remove('light', 'dark');
     
-    const themeToApply = theme === 'system' ? systemTheme : theme
-    root.classList.add(themeToApply)
+    // Apply the resolved theme
+    const themeToApply = theme === 'system' ? systemTheme : theme;
+    root.classList.add(themeToApply);
     
-    // Set data attribute for CSS selectors
-    root.setAttribute('data-theme', themeToApply)
-    
-    // Update body class for compatibility with some components
+    // Update body class for compatibility
     if (themeToApply === 'dark') {
-      document.body.classList.add('dark')
+      document.body.classList.add('dark');
     } else {
-      document.body.classList.remove('dark')
+      document.body.classList.remove('dark');
     }
     
-    // Update meta theme-color for mobile browsers
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+    // Update meta theme-color
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
       metaThemeColor.setAttribute(
         'content',
         themeToApply === 'dark' ? '#0f172a' : '#ffffff'
-      )
+      );
     }
-  }, [theme, systemTheme])
+  }, [theme, systemTheme]);
 
-  const setTheme = (theme: Theme) => {
-    localStorage.setItem(storageKey, theme)
-    setThemeState(theme)
-  }
+  // Save theme to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem(storageKey, theme);
+  }, [theme, storageKey]);
 
-  const value = {
-    theme,
-    systemTheme,
-    resolvedTheme,
-    setTheme,
-  }
-
+  // Provide the theme context
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        setTheme: (t) => setTheme(t),
+        systemTheme,
+        resolvedTheme,
+      }}
+    >
       {children}
-    </ThemeProviderContext.Provider>
-  )
+    </ThemeContext.Provider>
+  );
 }
 
-export const useTheme = () => {
-  const context = useContext(ThemeProviderContext)
-
-  if (context === undefined)
-    throw new Error('useTheme must be used within a ThemeProvider')
-
-  return context
+export function useTheme() {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
 }
