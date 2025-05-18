@@ -61,25 +61,25 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: 1,
-      title: 'Key Generated',
-      description: 'Your new RSA-2048 key pair has been created successfully.',
-      time: '10 min ago',
+      title: t('keyGenerated'),
+      description: t('keyGeneratedDesc'),
+      time: t('tenMinutesAgo'),
       type: 'success',
       read: false
     },
     {
       id: 2,
-      title: 'Security Alert',
-      description: 'Remember to store your keys in a secure location.',
-      time: '1 hour ago',
+      title: t('securityAlert'),
+      description: t('securityAlertDesc'),
+      time: t('oneHourAgo'),
       type: 'warning',
       read: false
     },
     {
       id: 3,
-      title: 'Hash Operation Completed',
-      description: 'SHA-256 hash of your file has been computed.',
-      time: '2 hours ago',
+      title: t('hashCompleted'),
+      description: t('hashCompletedDesc'),
+      time: t('twoHoursAgo'),
       type: 'info',
       read: true
     }

@@ -128,7 +128,21 @@ const translations = {
     
     // Loading states
     loadingData: 'Loading data...',
-    processingRequest: 'Processing your request...'
+    processingRequest: 'Processing your request...',
+    
+    // Notifications
+    keyGenerated: 'Key Generated',
+    keyGeneratedDesc: 'Your new RSA-2048 key pair has been created successfully.',
+    securityAlert: 'Security Alert',
+    securityAlertDesc: 'Remember to store your keys in a secure location.',
+    hashCompleted: 'Hash Operation Completed',
+    hashCompletedDesc: 'SHA-256 hash of your file has been computed.',
+    tenMinutesAgo: '10 min ago',
+    oneHourAgo: '1 hour ago',
+    twoHoursAgo: '2 hours ago',
+    thirtyMinutesAgo: '30 min ago',
+    welcomeToCryptoVault: 'Welcome to CryptoVault',
+    welcomeDesc: 'Get started by exploring our encryption tools.'
   },
   fr: {
     // Navigation
