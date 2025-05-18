@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useTheme } from '@/components/ThemeProvider';
+import React, { useState } from 'react';
 import { useLocation } from 'wouter';
 import { useAuth } from '@/hooks/use-auth';
 import { useLanguage, LANGUAGE_OPTIONS } from '@/hooks/use-language';
+import { ThemeSelector } from '@/components/ThemeSelector';
 import { 
   Menu, 
   Search,
-  Sun,
-  Moon,
   Bell,
   User,
   Settings,
@@ -17,9 +15,7 @@ import {
   CheckCircle,
   ShieldAlert,
   MessageCircle,
-  Monitor,
-  Languages,
-  Check
+  Languages
 } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -55,10 +51,7 @@ interface Notification {
   read: boolean;
 }
 
-// Language types are now imported from use-language.tsx
-
 const Topbar = ({ toggleSidebar }: TopbarProps) => {
-  const { theme, setTheme, systemTheme, resolvedTheme } = useTheme();
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const { language, setLanguage, t } = useLanguage();
@@ -94,34 +87,14 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
   
   const unreadCount = notifications.filter(n => !n.read).length;
   
-  const getThemeIcon = () => {
-    if (theme === 'dark' || (theme === 'system' && systemTheme === 'dark')) {
-      return <Sun className="h-6 w-6" />;
-    } else if (theme === 'light' || (theme === 'system' && systemTheme === 'light')) {
-      return <Moon className="h-6 w-6" />;
-    } else {
-      return <Monitor className="h-6 w-6" />;
-    }
-  };
-  
-  const handleThemeChange = (newTheme: string) => {
-    setTheme(newTheme as 'light' | 'dark' | 'system');
-    toast({
-      title: `${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)} theme activated`,
-      description: newTheme === 'system' 
-        ? `Using your system preference (${systemTheme} mode)` 
-        : `Switched to ${newTheme} theme`,
-    });
-  };
-  
   const handleLanguageChange = (newLanguage: string) => {
     setLanguage(newLanguage as any);
     
     const selectedLang = LANGUAGE_OPTIONS.find((lang: any) => lang.value === newLanguage);
     
     toast({
-      title: `Language changed to ${selectedLang?.label}`,
-      description: `${selectedLang?.flag} The interface language has been updated`,
+      title: `${t('language')} ${t('changed')} ${selectedLang?.label}`,
+      description: `${selectedLang?.flag} ${t('languageChangedDesc')}`,
     });
   };
   
@@ -140,8 +113,8 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
       prev.map(notification => ({ ...notification, read: true }))
     );
     toast({
-      title: "Notifications cleared",
-      description: "All notifications marked as read",
+      title: t('notificationsCleared'),
+      description: t('allNotificationsRead'),
     });
   };
   
@@ -150,8 +123,8 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
       onSuccess: () => {
         navigate('/auth');
         toast({
-          title: "Logged out",
-          description: "You have been logged out successfully",
+          title: t('loggedOut'),
+          description: t('logoutSuccess'),
         });
       }
     });
@@ -186,7 +159,7 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input 
               type="search" 
-              placeholder="Search..." 
+              placeholder={t('search')} 
               className="pl-9 h-9" 
             />
           </div>
@@ -206,7 +179,7 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Select Language</DropdownMenuLabel>
+              <DropdownMenuLabel>{t('selectLanguage')}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuRadioGroup value={language} onValueChange={handleLanguageChange}>
                 {LANGUAGE_OPTIONS.map((option: any) => (
@@ -222,38 +195,7 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
           </DropdownMenu>
           
           {/* Theme switch */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="p-1 rounded-full text-slate-400 hover:text-slate-500 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-              >
-                {getThemeIcon()}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Theme</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuRadioGroup value={theme} onValueChange={handleThemeChange}>
-                <DropdownMenuRadioItem value="light">
-                  <Sun className="mr-2 h-4 w-4" />
-                  <span>Light</span>
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="dark">
-                  <Moon className="mr-2 h-4 w-4" />
-                  <span>Dark</span>
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="system">
-                  <Monitor className="mr-2 h-4 w-4" />
-                  <span>System</span>
-                  <span className="ml-auto text-xs text-slate-500 dark:text-slate-400">
-                    ({systemTheme})
-                  </span>
-                </DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <ThemeSelector />
           
           {/* Notification bell */}
           <DropdownMenu>
@@ -272,7 +214,7 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-80">
               <DropdownMenuLabel className="flex items-center justify-between">
-                <span>Notifications</span>
+                <span>{t('notifications')}</span>
                 {unreadCount > 0 && (
                   <Button 
                     variant="ghost" 
@@ -283,7 +225,7 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
                     }}
                     className="h-auto py-1 px-2 text-xs"
                   >
-                    Mark all as read
+                    {t('markAllRead')}
                   </Button>
                 )}
               </DropdownMenuLabel>
@@ -292,7 +234,7 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
               {notifications.length === 0 ? (
                 <div className="py-4 px-2 text-center text-sm text-slate-500 dark:text-slate-400">
                   <MessageCircle className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                  <p>No notifications</p>
+                  <p>{t('noNotifications')}</p>
                 </div>
               ) : (
                 <>
@@ -317,13 +259,13 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
                       </div>
                       {!notification.read && (
                         <div className="w-full flex justify-end mt-2">
-                          <Badge variant="outline" className="text-xs">New</Badge>
+                          <Badge variant="outline" className="text-xs">{t('new')}</Badge>
                         </div>
                       )}
                     </DropdownMenuItem>
                   ))}
                   <DropdownMenuItem className="flex items-center justify-center py-2 text-primary-600 dark:text-primary-400 text-sm">
-                    View all notifications
+                    {t('viewAllNotifications')}
                   </DropdownMenuItem>
                 </>
               )}
@@ -343,18 +285,20 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{user?.username || 'Guest'}</p>
-                  <p className="text-xs leading-none text-slate-500 dark:text-slate-400">{user?.email || 'Not logged in'}</p>
+                  <p className="text-sm font-medium leading-none">{user?.username || t('guest')}</p>
+                  <p className="text-xs leading-none text-slate-500 dark:text-slate-400">
+                    {user?.email || t('notLoggedIn')}
+                  </p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => navigate('/profile')}>
                 <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
+                <span>{t('profile')}</span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => navigate('/settings')}>
                 <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
+                <span>{t('settings')}</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem 
@@ -362,7 +306,7 @@ const Topbar = ({ toggleSidebar }: TopbarProps) => {
                 disabled={logoutMutation.isPending}
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>{logoutMutation.isPending ? "Logging out..." : "Log out"}</span>
+                <span>{logoutMutation.isPending ? t('loggingOut') : t('logout')}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
