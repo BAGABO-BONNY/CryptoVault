@@ -21,9 +21,10 @@ export const LANGUAGE_OPTIONS = [
   { value: 'zh' as Language, label: '中文', flag: '🇨🇳' }
 ];
 
-// Mock translations - in a real app, this would be loaded from separate files
+// Translations for the application UI
 const translations = {
   en: {
+    // Navigation
     dashboard: 'Dashboard',
     encryption: 'Encryption',
     decryption: 'Decryption',
@@ -39,9 +40,67 @@ const translations = {
     register: 'Register',
     about: 'About',
     help: 'Help',
-    home: 'Home'
+    home: 'Home',
+    logs: 'Activity Logs',
+    
+    // Common UI elements
+    submit: 'Submit',
+    cancel: 'Cancel',
+    save: 'Save',
+    delete: 'Delete',
+    edit: 'Edit',
+    copy: 'Copy',
+    download: 'Download',
+    loading: 'Loading...',
+    search: 'Search',
+    generate: 'Generate',
+    
+    // Authentication
+    username: 'Username',
+    email: 'Email',
+    password: 'Password',
+    confirmPassword: 'Confirm Password',
+    forgotPassword: 'Forgot Password?',
+    createAccount: 'Create Account',
+    loginToAccount: 'Login to your account',
+    
+    // Encryption components
+    inputText: 'Input Text',
+    encryptedText: 'Encrypted Text',
+    decryptedText: 'Decrypted Text',
+    selectAlgorithm: 'Select Algorithm',
+    encryptBtn: 'Encrypt',
+    decryptBtn: 'Decrypt',
+    enterKey: 'Enter Key',
+    generateKey: 'Generate Key',
+    keySize: 'Key Size',
+    outputFormat: 'Output Format',
+    
+    // Settings
+    theme: 'Theme',
+    language: 'Language',
+    darkMode: 'Dark Mode',
+    lightMode: 'Light Mode',
+    systemTheme: 'System Theme',
+    
+    // Feedback messages
+    successEncrypt: 'Text encrypted successfully!',
+    successDecrypt: 'Text decrypted successfully!',
+    successHash: 'Text hashed successfully!',
+    successSignature: 'Signature created successfully!',
+    copySuccess: 'Copied to clipboard',
+    errorMessage: 'An error occurred',
+    
+    // Profile page
+    accountInfo: 'Account Information',
+    updateProfile: 'Update Profile',
+    
+    // Loading states
+    loadingData: 'Loading data...',
+    processingRequest: 'Processing your request...'
   },
   fr: {
+    // Navigation
     dashboard: 'Tableau de Bord',
     encryption: 'Chiffrement',
     decryption: 'Déchiffrement',
@@ -57,9 +116,67 @@ const translations = {
     register: 'S\'inscrire',
     about: 'À Propos',
     help: 'Aide',
-    home: 'Accueil'
+    home: 'Accueil',
+    logs: 'Journaux d\'Activité',
+    
+    // Common UI elements
+    submit: 'Soumettre',
+    cancel: 'Annuler',
+    save: 'Sauvegarder',
+    delete: 'Supprimer',
+    edit: 'Modifier',
+    copy: 'Copier',
+    download: 'Télécharger',
+    loading: 'Chargement...',
+    search: 'Rechercher',
+    generate: 'Générer',
+    
+    // Authentication
+    username: 'Nom d\'utilisateur',
+    email: 'Email',
+    password: 'Mot de passe',
+    confirmPassword: 'Confirmer le mot de passe',
+    forgotPassword: 'Mot de passe oublié?',
+    createAccount: 'Créer un compte',
+    loginToAccount: 'Connectez-vous à votre compte',
+    
+    // Encryption components
+    inputText: 'Texte à saisir',
+    encryptedText: 'Texte chiffré',
+    decryptedText: 'Texte déchiffré',
+    selectAlgorithm: 'Sélectionner l\'algorithme',
+    encryptBtn: 'Chiffrer',
+    decryptBtn: 'Déchiffrer',
+    enterKey: 'Entrez la clé',
+    generateKey: 'Générer une clé',
+    keySize: 'Taille de la clé',
+    outputFormat: 'Format de sortie',
+    
+    // Settings
+    theme: 'Thème',
+    language: 'Langue',
+    darkMode: 'Mode Sombre',
+    lightMode: 'Mode Clair',
+    systemTheme: 'Thème du Système',
+    
+    // Feedback messages
+    successEncrypt: 'Texte chiffré avec succès!',
+    successDecrypt: 'Texte déchiffré avec succès!',
+    successHash: 'Texte haché avec succès!',
+    successSignature: 'Signature créée avec succès!',
+    copySuccess: 'Copié dans le presse-papiers',
+    errorMessage: 'Une erreur est survenue',
+    
+    // Profile page
+    accountInfo: 'Informations du compte',
+    updateProfile: 'Mettre à jour le profil',
+    
+    // Loading states
+    loadingData: 'Chargement des données...',
+    processingRequest: 'Traitement de votre demande...'
   },
   es: {
+    // Navigation
     dashboard: 'Panel',
     encryption: 'Cifrado',
     decryption: 'Descifrado',
@@ -75,9 +192,67 @@ const translations = {
     register: 'Registrarse',
     about: 'Acerca de',
     help: 'Ayuda',
-    home: 'Inicio'
+    home: 'Inicio',
+    logs: 'Registros de Actividad',
+    
+    // Common UI elements
+    submit: 'Enviar',
+    cancel: 'Cancelar',
+    save: 'Guardar',
+    delete: 'Eliminar',
+    edit: 'Editar',
+    copy: 'Copiar',
+    download: 'Descargar',
+    loading: 'Cargando...',
+    search: 'Buscar',
+    generate: 'Generar',
+    
+    // Authentication
+    username: 'Nombre de usuario',
+    email: 'Correo electrónico',
+    password: 'Contraseña',
+    confirmPassword: 'Confirmar contraseña',
+    forgotPassword: '¿Olvidó su contraseña?',
+    createAccount: 'Crear cuenta',
+    loginToAccount: 'Inicie sesión en su cuenta',
+    
+    // Encryption components
+    inputText: 'Texto de entrada',
+    encryptedText: 'Texto cifrado',
+    decryptedText: 'Texto descifrado',
+    selectAlgorithm: 'Seleccionar algoritmo',
+    encryptBtn: 'Cifrar',
+    decryptBtn: 'Descifrar',
+    enterKey: 'Introducir clave',
+    generateKey: 'Generar clave',
+    keySize: 'Tamaño de clave',
+    outputFormat: 'Formato de salida',
+    
+    // Settings
+    theme: 'Tema',
+    language: 'Idioma',
+    darkMode: 'Modo Oscuro',
+    lightMode: 'Modo Claro',
+    systemTheme: 'Tema del Sistema',
+    
+    // Feedback messages
+    successEncrypt: '¡Texto cifrado con éxito!',
+    successDecrypt: '¡Texto descifrado con éxito!',
+    successHash: '¡Texto hasheado con éxito!',
+    successSignature: '¡Firma creada con éxito!',
+    copySuccess: 'Copiado al portapapeles',
+    errorMessage: 'Se ha producido un error',
+    
+    // Profile page
+    accountInfo: 'Información de la cuenta',
+    updateProfile: 'Actualizar perfil',
+    
+    // Loading states
+    loadingData: 'Cargando datos...',
+    processingRequest: 'Procesando su solicitud...'
   },
   de: {
+    // Navigation
     dashboard: 'Dashboard',
     encryption: 'Verschlüsselung',
     decryption: 'Entschlüsselung',
@@ -93,9 +268,67 @@ const translations = {
     register: 'Registrieren',
     about: 'Über',
     help: 'Hilfe',
-    home: 'Startseite'
+    home: 'Startseite',
+    logs: 'Aktivitätsprotokolle',
+    
+    // Common UI elements
+    submit: 'Absenden',
+    cancel: 'Abbrechen',
+    save: 'Speichern',
+    delete: 'Löschen',
+    edit: 'Bearbeiten',
+    copy: 'Kopieren',
+    download: 'Herunterladen',
+    loading: 'Wird geladen...',
+    search: 'Suchen',
+    generate: 'Generieren',
+    
+    // Authentication
+    username: 'Benutzername',
+    email: 'E-Mail',
+    password: 'Passwort',
+    confirmPassword: 'Passwort bestätigen',
+    forgotPassword: 'Passwort vergessen?',
+    createAccount: 'Konto erstellen',
+    loginToAccount: 'In Ihr Konto einloggen',
+    
+    // Encryption components
+    inputText: 'Eingabetext',
+    encryptedText: 'Verschlüsselter Text',
+    decryptedText: 'Entschlüsselter Text',
+    selectAlgorithm: 'Algorithmus auswählen',
+    encryptBtn: 'Verschlüsseln',
+    decryptBtn: 'Entschlüsseln',
+    enterKey: 'Schlüssel eingeben',
+    generateKey: 'Schlüssel generieren',
+    keySize: 'Schlüsselgröße',
+    outputFormat: 'Ausgabeformat',
+    
+    // Settings
+    theme: 'Thema',
+    language: 'Sprache',
+    darkMode: 'Dunkelmodus',
+    lightMode: 'Hellmodus',
+    systemTheme: 'System-Thema',
+    
+    // Feedback messages
+    successEncrypt: 'Text erfolgreich verschlüsselt!',
+    successDecrypt: 'Text erfolgreich entschlüsselt!',
+    successHash: 'Text erfolgreich gehasht!',
+    successSignature: 'Signatur erfolgreich erstellt!',
+    copySuccess: 'In die Zwischenablage kopiert',
+    errorMessage: 'Ein Fehler ist aufgetreten',
+    
+    // Profile page
+    accountInfo: 'Kontoinformationen',
+    updateProfile: 'Profil aktualisieren',
+    
+    // Loading states
+    loadingData: 'Daten werden geladen...',
+    processingRequest: 'Ihre Anfrage wird bearbeitet...'
   },
   zh: {
+    // Navigation
     dashboard: '仪表板',
     encryption: '加密',
     decryption: '解密',
@@ -111,7 +344,64 @@ const translations = {
     register: '注册',
     about: '关于',
     help: '帮助',
-    home: '首页'
+    home: '首页',
+    logs: '活动日志',
+    
+    // Common UI elements
+    submit: '提交',
+    cancel: '取消',
+    save: '保存',
+    delete: '删除',
+    edit: '编辑',
+    copy: '复制',
+    download: '下载',
+    loading: '加载中...',
+    search: '搜索',
+    generate: '生成',
+    
+    // Authentication
+    username: '用户名',
+    email: '电子邮件',
+    password: '密码',
+    confirmPassword: '确认密码',
+    forgotPassword: '忘记密码？',
+    createAccount: '创建账户',
+    loginToAccount: '登录到您的账户',
+    
+    // Encryption components
+    inputText: '输入文本',
+    encryptedText: '加密文本',
+    decryptedText: '解密文本',
+    selectAlgorithm: '选择算法',
+    encryptBtn: '加密',
+    decryptBtn: '解密',
+    enterKey: '输入密钥',
+    generateKey: '生成密钥',
+    keySize: '密钥大小',
+    outputFormat: '输出格式',
+    
+    // Settings
+    theme: '主题',
+    language: '语言',
+    darkMode: '暗色模式',
+    lightMode: '亮色模式',
+    systemTheme: '系统主题',
+    
+    // Feedback messages
+    successEncrypt: '文本加密成功！',
+    successDecrypt: '文本解密成功！',
+    successHash: '文本哈希成功！',
+    successSignature: '签名创建成功！',
+    copySuccess: '已复制到剪贴板',
+    errorMessage: '发生错误',
+    
+    // Profile page
+    accountInfo: '账户信息',
+    updateProfile: '更新个人资料',
+    
+    // Loading states
+    loadingData: '加载数据中...',
+    processingRequest: '正在处理您的请求...'
   }
 };
 

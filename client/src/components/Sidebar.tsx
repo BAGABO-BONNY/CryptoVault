@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useLanguage } from '@/hooks/use-language';
 import { 
   Home, 
   Lock, 
@@ -22,6 +23,7 @@ interface SidebarProps {
 
 const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
   const [location] = useLocation();
+  const { t } = useLanguage();
   
   // Helper to check if a link is active
   const isActive = (path: string) => {
@@ -67,7 +69,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                     : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
                 )}>
                   <Home className="h-5 w-5 mr-3" />
-                  Dashboard
+                  {t('dashboard')}
                 </Link>
               </li>
               
@@ -83,7 +85,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
                   )}>
                     <Lock className="h-5 w-5 mr-3 text-slate-400" />
-                    Encryption
+                    {t('encryption')}
                   </Link>
                   
                   <Link href="/decryption" className={cn(
@@ -93,7 +95,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
                   )}>
                     <Unlock className="h-5 w-5 mr-3 text-slate-400" />
-                    Decryption
+                    {t('decryption')}
                   </Link>
                   
                   <Link href="/hashing" className={cn(
@@ -103,7 +105,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
                   )}>
                     <ShieldCheck className="h-5 w-5 mr-3 text-slate-400" />
-                    Hashing
+                    {t('hashing')}
                   </Link>
                   
                   <Link href="/key-generator" className={cn(
@@ -113,7 +115,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
                   )}>
                     <Key className="h-5 w-5 mr-3 text-slate-400" />
-                    Key Generator
+                    {t('keyGenerator')}
                   </Link>
                   
                   <Link href="/digital-signature" className={cn(
@@ -123,7 +125,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
                   )}>
                     <FileSignature className="h-5 w-5 mr-3 text-slate-400" />
-                    Digital Signatures
+                    {t('digitalSignature')}
                   </Link>
                 </div>
               </li>
@@ -140,7 +142,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
                   )}>
                     <List className="h-5 w-5 mr-3 text-slate-400" />
-                    Logs & History
+                    {t('logs')}
                   </Link>
                   
                   <Link href="/settings" className={cn(
@@ -150,7 +152,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
                   )}>
                     <Settings className="h-5 w-5 mr-3 text-slate-400" />
-                    Settings
+                    {t('settings')}
                   </Link>
                   
                   <Link href="/help" className={cn(
@@ -160,7 +162,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
                   )}>
                     <HelpCircle className="h-5 w-5 mr-3 text-slate-400" />
-                    Help & Documentation
+                    {t('help')}
                   </Link>
                   
                   <Link href="/about" className={cn(
@@ -170,7 +172,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
                   )}>
                     <Info className="h-5 w-5 mr-3 text-slate-400" />
-                    About
+                    {t('about')}
                   </Link>
                 </div>
               </li>

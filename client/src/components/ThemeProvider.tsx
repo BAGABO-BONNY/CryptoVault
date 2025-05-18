@@ -67,6 +67,13 @@ export function ThemeProvider({
     // Set data attribute for CSS selectors
     root.setAttribute('data-theme', themeToApply)
     
+    // Update body class for compatibility with some components
+    if (themeToApply === 'dark') {
+      document.body.classList.add('dark')
+    } else {
+      document.body.classList.remove('dark')
+    }
+    
     // Update meta theme-color for mobile browsers
     const metaThemeColor = document.querySelector('meta[name="theme-color"]')
     if (metaThemeColor) {
