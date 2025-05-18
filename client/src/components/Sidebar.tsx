@@ -87,7 +87,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
               
               <li className="mt-6">
                 <h3 className="px-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                  Cryptography Tools
+                  {t('cryptographyTools')}
                 </h3>
                 <div className="mt-2 space-y-1">
                   <Link href="/encryption" className={cn(

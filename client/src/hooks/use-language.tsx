@@ -33,6 +33,7 @@ const translations = {
     digitalSignature: 'Digital Signature',
     welcome: 'Welcome',
     settings: 'Settings',
+    cryptographyTools: 'Cryptography Tools',
     profile: 'Profile',
     logout: 'Logout',
     signIn: 'Sign In',
@@ -40,7 +41,6 @@ const translations = {
     register: 'Register',
     about: 'About',
     help: 'Help',
-    home: 'Home',
     logs: 'Activity Logs',
     
     // Common UI elements
