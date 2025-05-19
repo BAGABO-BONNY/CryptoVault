@@ -36,11 +36,14 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/help" component={Help} />
       <Route path="/" component={HomePage} />
-      
+
       {/* Protected routes */}
       <ProtectedRoute path="/dashboard" component={Dashboard} />
       <ProtectedRoute path="/admin-dashboard" component={AdminDashboard} />
-      <ProtectedRoute path="/customer-dashboard" component={CustomerDashboard} />
+      <ProtectedRoute
+        path="/customer-dashboard"
+        component={CustomerDashboard}
+      />
       <ProtectedRoute path="/encryption" component={Encryption} />
       <ProtectedRoute path="/decryption" component={Decryption} />
       <ProtectedRoute path="/hashing" component={Hashing} />
@@ -49,7 +52,7 @@ function Router() {
       <ProtectedRoute path="/logs" component={Logs} />
       <ProtectedRoute path="/settings" component={Settings} />
       <ProtectedRoute path="/profile" component={ProfilePage} />
-      
+
       {/* Catch-all route */}
       <Route component={NotFound} />
     </Switch>
