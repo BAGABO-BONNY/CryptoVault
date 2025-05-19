@@ -25,6 +25,8 @@ import About from "@/pages/about";
 import HomePage from "@/pages/home-page";
 import AuthPage from "@/pages/auth-page";
 import ProfilePage from "@/pages/profile";
+import AdminDashboard from "@/pages/admin-dashboard";
+import CustomerDashboard from "@/pages/customer-dashboard";
 
 function Router() {
   return (

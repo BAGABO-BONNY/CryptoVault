@@ -33,7 +33,7 @@ const CustomerDashboard = () => {
     isLoading: isStatsLoading,
   } = useQuery<Stats, Error>({
     queryKey: ['/api/stats'],
-    queryFn: getQueryFn({ on401: 'redirect' }),
+    queryFn: getQueryFn({ on401: 'throw' }),
   });
 
   // Fetch user activity records
@@ -42,7 +42,7 @@ const CustomerDashboard = () => {
     isLoading: isActivitiesLoading,
   } = useQuery<ActivityRecord[], Error>({
     queryKey: ['/api/activities'],
-    queryFn: getQueryFn({ on401: 'redirect' }),
+    queryFn: getQueryFn({ on401: 'throw' }),
   });
 
   // Fetch algorithm usage
@@ -51,7 +51,7 @@ const CustomerDashboard = () => {
     isLoading: isAlgorithmUsageLoading,
   } = useQuery<AlgorithmUsage[], Error>({
     queryKey: ['/api/algorithm-usage'],
-    queryFn: getQueryFn({ on401: 'redirect' }),
+    queryFn: getQueryFn({ on401: 'throw' }),
   });
 
   const getOperationIcon = (operation: string) => {
