@@ -33,7 +33,7 @@ const CustomerDashboard = () => {
     isLoading: isStatsLoading,
   } = useQuery<Stats, Error>({
     queryKey: ['/api/stats'],
-    queryFn: getQueryFn({}),
+    queryFn: getQueryFn({ on401: 'redirect' }),
   });
 
   // Fetch user activity records
@@ -42,7 +42,7 @@ const CustomerDashboard = () => {
     isLoading: isActivitiesLoading,
   } = useQuery<ActivityRecord[], Error>({
     queryKey: ['/api/activities'],
-    queryFn: getQueryFn({}),
+    queryFn: getQueryFn({ on401: 'redirect' }),
   });
 
   // Fetch algorithm usage
@@ -51,7 +51,7 @@ const CustomerDashboard = () => {
     isLoading: isAlgorithmUsageLoading,
   } = useQuery<AlgorithmUsage[], Error>({
     queryKey: ['/api/algorithm-usage'],
-    queryFn: getQueryFn({}),
+    queryFn: getQueryFn({ on401: 'redirect' }),
   });
 
   const getOperationIcon = (operation: string) => {
@@ -113,7 +113,7 @@ const CustomerDashboard = () => {
             {t('dashboard')}
           </h1>
           <p className="text-slate-500 dark:text-slate-400">
-            {t('welcome')} {user?.username || ''}, {t('dashboardSubtitle')}
+            {t('customerWelcome')} {user?.username || ''}, {t('dashboardSubtitle')}
           </p>
         </div>
         <div className="flex gap-2">

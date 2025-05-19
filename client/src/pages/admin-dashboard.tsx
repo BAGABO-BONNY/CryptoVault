@@ -132,7 +132,7 @@ const AdminDashboard = () => {
     isLoading: isStatsLoading,
   } = useQuery<Stats, Error>({
     queryKey: ['/api/stats'],
-    queryFn: getQueryFn({}),
+    queryFn: getQueryFn({ on401: 'redirect' }),
   });
 
   // Fetch activity records
@@ -141,7 +141,7 @@ const AdminDashboard = () => {
     isLoading: isActivitiesLoading,
   } = useQuery<ActivityRecord[], Error>({
     queryKey: ['/api/activities'],
-    queryFn: getQueryFn({}),
+    queryFn: getQueryFn({ on401: 'redirect' }),
   });
 
   // Fetch algorithm usage
@@ -150,7 +150,7 @@ const AdminDashboard = () => {
     isLoading: isAlgorithmUsageLoading,
   } = useQuery<AlgorithmUsage[], Error>({
     queryKey: ['/api/algorithm-usage'],
-    queryFn: getQueryFn({}),
+    queryFn: getQueryFn({ on401: 'redirect' }),
   });
 
   return (
