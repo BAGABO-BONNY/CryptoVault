@@ -51,7 +51,7 @@ export const statsSchema = z.object({
   totalEncrypted: z.number(),
   keysGenerated: z.number(),
   hashOperations: z.number(),
-  digitalSignatures: z.number(),
+  signatureOperations: z.number(), // Changed from digitalSignatures to signatureOperations for consistency
 });
 
 export type Stats = z.infer<typeof statsSchema>;

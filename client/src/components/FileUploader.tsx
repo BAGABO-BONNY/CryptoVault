@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Upload, File, AlertCircle, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/hooks/use-language';
 
 interface FileUploaderProps {
   onFileSelect: (file: File, content: string) => void;
@@ -44,7 +45,19 @@ const FileUploader = ({
       
       reader.onload = (event) => {
         if (event.target?.result) {
-          resolve(event.target.result as string);
+          if (typeof event.target.result === 'string') {
+            resolve(event.target.result);
+          } else {
+            // Handle binary data by converting ArrayBuffer to Base64
+            const arrayBuffer = event.target.result as ArrayBuffer;
+            const bytes = new Uint8Array(arrayBuffer);
+            let binary = '';
+            for (let i = 0; i < bytes.byteLength; i++) {
+              binary += String.fromCharCode(bytes[i]);
+            }
+            const base64 = window.btoa(binary);
+            resolve(`data:${file.type};base64,${base64}`);
+          }
         } else {
           reject(new Error('Failed to read file'));
         }
@@ -54,7 +67,20 @@ const FileUploader = ({
         reject(new Error('Failed to read file'));
       };
       
-      reader.readAsText(file);
+      // Check if file is likely text-based or binary
+      const textTypes = [
+        'text/', 'application/json', 'application/xml', 
+        'application/javascript', 'application/typescript'
+      ];
+      
+      const isTextFile = textTypes.some(type => file.type.startsWith(type)) || 
+                        /\.(txt|json|xml|js|ts|html|css|md|csv)$/i.test(file.name);
+      
+      if (isTextFile) {
+        reader.readAsText(file);
+      } else {
+        reader.readAsArrayBuffer(file);
+      }
     });
   };
 
@@ -124,6 +150,8 @@ const FileUploader = ({
     }
   };
 
+  const { t } = useLanguage();
+  
   return (
     <div className={cn(
       "relative",
@@ -166,17 +194,17 @@ const FileUploader = ({
                 }}
                 className="mt-2"
               >
-                Try Again
+                {t('tryAgain')}
               </Button>
             </div>
           ) : (
             <>
               <Upload className="h-10 w-10 text-slate-400 dark:text-slate-500 mb-2" />
               <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                Drag and drop a file here, or click to select
+                {t('dragAndDropFile')}
               </p>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                Max size: {maxSize}MB
+                {t('maxFileSize')}: {maxSize}MB
               </p>
             </>
           )}
@@ -198,6 +226,8 @@ const FileUploader = ({
               className="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300"
               onClick={clearFile}
               disabled={disabled || isLoading}
+              aria-label={t('removeFile')}
+              title={t('removeFile')}
             >
               <X className="h-5 w-5" />
             </button>
