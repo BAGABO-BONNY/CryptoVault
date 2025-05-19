@@ -14,7 +14,9 @@ import {
   Settings, 
   HelpCircle, 
   Info,
-  LayoutDashboard
+  LayoutDashboard,
+  Users,
+  BarChart3
 } from 'lucide-react';
 
 interface SidebarProps {

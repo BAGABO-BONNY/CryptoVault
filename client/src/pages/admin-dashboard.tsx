@@ -85,7 +85,7 @@ const UserTable = ({ users, searchTerm, t }: UserTableProps) => {
                 </TableCell>
                 <TableCell>
                   <Badge 
-                    variant={user.status === 'active' ? 'success' : 'secondary'} 
+                    variant={user.status === 'active' ? 'outline' : 'secondary'} 
                     className={user.status === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : ''}
                   >
                     {user.status === 'active' ? t('active') : t('inactive')}
@@ -322,7 +322,7 @@ const AdminDashboard = () => {
                         <TableCell>{activity.algorithm}</TableCell>
                         <TableCell>
                           <Badge 
-                            variant={activity.result ? 'success' : 'destructive'}
+                            variant={activity.result ? 'outline' : 'destructive'}
                             className={activity.result ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : ''}
                           >
                             {activity.result ? t('success') : t('failed')}

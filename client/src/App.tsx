@@ -39,6 +39,8 @@ function Router() {
       
       {/* Protected routes */}
       <ProtectedRoute path="/dashboard" component={Dashboard} />
+      <ProtectedRoute path="/admin-dashboard" component={AdminDashboard} />
+      <ProtectedRoute path="/customer-dashboard" component={CustomerDashboard} />
       <ProtectedRoute path="/encryption" component={Encryption} />
       <ProtectedRoute path="/decryption" component={Decryption} />
       <ProtectedRoute path="/hashing" component={Hashing} />
