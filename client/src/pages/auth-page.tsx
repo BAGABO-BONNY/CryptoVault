@@ -277,7 +277,7 @@ const AuthPage = () => {
         </div>
 
         {/* Right Column - Hero Section */}
-        <div className="hidden md:flex md:w-1/2 flex-col items-center justify-center p-6 bg-gradient-to-br from-primary-600 to-primary-800 text-white">
+        <div className="hidden md:flex md:w-1/2 flex-col items-center justify-center p-6 bg-gradient-to-br  from-blue-400 to-blue-200 dark:from-slate-900 dark:to-slate-800 text-black dark:text-white">
           <div className="max-w-md space-y-6">
             <div className="space-y-2 text-center">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Secure Your Digital Future</h1>
@@ -310,7 +310,7 @@ const AuthPage = () => {
                 </div>
                 <div>
                   <h3 className="font-medium">Secure Key Management</h3>
-                  <p className="text-sm text-white/70">Generate and store cryptographic keys safely</p>
+                  <p className="text-sm text-white/90">Generate and store cryptographic keys safely</p>
                 </div>
               </div>
             </div>
