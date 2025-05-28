@@ -163,7 +163,7 @@ const HomePage = () => {
                   size="lg"
                   variant="outline"
                   onClick={() => navigate("/about")}
-                  className="border-slate-300 hover:border-primary hover:text-primary transition-colors duration-300"
+                  className="border-slate-300 hover:border-primary hover:text-white/100 transition-colors duration-300"
                 >
                   Learn More
                 </Button>
@@ -272,11 +272,7 @@ const HomePage = () => {
                     variant="ghost"
                     size="sm"
                     className="px-0 text-primary hover:text-primary/80 hover:bg-transparent"
-                    onClick={() =>
-                      navigate(
-                        `/${feature.title.toLowerCase().replace(" ", "-")}`
-                      )
-                    }
+                    onClick={() => navigate("/help")}
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
                   </Button>

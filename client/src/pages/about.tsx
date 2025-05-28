@@ -23,7 +23,7 @@ const About = () => {
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">About CryptoVault</h1>
         <div className="mt-3 sm:mt-0 flex gap-2">
           <Button variant="outline" size="sm" className="gap-2" asChild>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/BAGABO-BONNY" target="_blank" rel="noopener noreferrer">
               <Github className="h-4 w-4" />
               GitHub
             </a>
@@ -217,7 +217,7 @@ const About = () => {
                 </a>
               </Button>
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0" asChild>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/BAGABO-BONNY" target="_blank" rel="noopener noreferrer">
                   <Github className="h-4 w-4" />
                   <span className="sr-only">GitHub</span>
                 </a>
@@ -251,7 +251,7 @@ const About = () => {
                 </a>
               </Button>
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0" asChild>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/BAGABO-BONNY" target="_blank" rel="noopener noreferrer">
                   <Github className="h-4 w-4" />
                   <span className="sr-only">GitHub</span>
                 </a>
@@ -285,7 +285,7 @@ const About = () => {
                 </a>
               </Button>
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0" asChild>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/BAGABO-BONNY" target="_blank" rel="noopener noreferrer">
                   <Github className="h-4 w-4" />
                   <span className="sr-only">GitHub</span>
                 </a>
@@ -363,7 +363,7 @@ SOFTWARE.`}
           </p>
           <div className="mt-4">
             <Button variant="outline" className="gap-2" asChild>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/BAGABO-BONNY" target="_blank" rel="noopener noreferrer">
                 <Heart className="h-4 w-4 text-red-500" />
                 Contribute to CryptoVault
               </a>
