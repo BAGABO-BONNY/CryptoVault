@@ -514,7 +514,7 @@ const HomePage = () => {
               </p>
               <div className="flex space-x-4">
                 <a
-                  href="#"
+                  href="https://x.com/BagaboBonn56348"
                   className="text-slate-400 hover:text-primary transition-colors"
                 >
                   <svg
@@ -533,7 +533,7 @@ const HomePage = () => {
                   </svg>
                 </a>
                 <a
-                  href="#"
+                  href="https://www.facebook.com/profile.php?id=61555186797204"
                   className="text-slate-400 hover:text-primary transition-colors"
                 >
                   <svg
@@ -552,7 +552,7 @@ const HomePage = () => {
                   </svg>
                 </a>
                 <a
-                  href="#"
+                  href="https://github.com/BAGABO-BONNY"
                   className="text-slate-400 hover:text-primary transition-colors"
                 >
                   <svg
